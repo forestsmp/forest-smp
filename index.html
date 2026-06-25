@@ -5,109 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOREST-SMP</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="shop-container" style="padding: 50px; text-align: center; font-family: sans-serif;">
-        <h1 style="color: rgb(33, 216, 57); margin-bottom: 30px;">FOREST-SMP</h1>
-        <div style="display: flex; gap: 20px; justify-content: center;">
-            <div class="card" style="background: rgba(25, 25, 35, 0.65); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.08); width: 220px; color: white;">
-                <h3>AZLEA RANK</h3>
-                <p style="color: #00e676; font-size: 20px; font-weight: bold;">$5.00</p>
-                <button onclick="openModal('AZLEA', 5.00)" style="padding: 12px 24px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 8px; font-weight: bold; width: 100%;">Buy Now</button>
+    <nav class="navbar">
+        <div class="nav-logo" onclick="showPage('home')">FOREST-SMP</div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="showPage('home')">Home</a></li>
+            <li><a href="#" onclick="showPage('rank')">Rank</a></li>
+            <li><a href="#" onclick="showPage('life')">Life</a></li>
+            <li><a href="#" onclick="showPage('support')">Support</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        
+        <section id="page-home" class="store-page active">
+            <div class="welcome-text">
+                <h1>Welcome to FOREST-SMP</h1>
+                <p>Please select the type of service you would like to view or purchase below</p>
             </div>
-            <div class="card" style="background: rgba(25, 25, 35, 0.65); padding: 25px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.08); width: 220px; color: white;">
-                <h3>ACACIA RANK</h3>
-                <p style="color: #00e676; font-size: 20px; font-weight: bold;">$15.00</p>
-                <button onclick="openModal('ACACIA', 15.00)" style="padding: 12px 24px; background: #007bff; color: white; border: none; cursor: pointer; border-radius: 8px; font-weight: bold; width: 100%;">Buy Now</button>
+            <div class="home-boxes">
+                <div class="home-box box-views" onclick="showPage('support')">
+                    <div class="box-icon"></div>
+                    <h3></h3>
+                    <p></p>
+                </div>
+                <div class="home-box box-rank" onclick="showPage('rank')">
+                    <div class="box-icon"></div>
+                    <h3></h3>
+                    <p></p>
+                </div>
+                <div class="home-box box-life" onclick="showPage('life')">
+                    <div class="box-icon"></div>
+                    <h3></h3>
+                    <p></p>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section id="page-rank" class="store-page">
+            
+            <div id="rank-step-select" class="shop-step active">
+                <h2>Step 1: Select Rank status </h2>
+                <div class="grid-container">
+                    <div class="rank-card" id="card-Acacia" onclick="selectItem('rank', 'Acacia', 0.01)">
+                        <div class="badge rank-acacia">Acacia</div>
+                        <div class="price">$0.01 <span class="khr"></span></div>
+                        <p class="desc"></p>
+                    </div>
+                    <div class="rank-card" id="card-Azalea" onclick="selectItem('rank', 'Azalea', 0.02)">
+                        <div class="badge rank-azalea">Azalea</div>
+                        <div class="price">$0.02 <span class="khr"></span></div>
+                        <p class="desc"></p>
+                    </div>
+                    <div class="rank-card" id="card-Jungle" onclick="selectItem('rank', 'Jungle', 0.03)">
+                        <div class="badge rank-jungle">Jungle</div>
+                        <div class="price">$0.03 <span class="khr"></span></div>
+                        <p class="desc"></p>
+                    </div>
+                </div>
+                <button class="btn-next" onclick="goToFormStep()">NEXT</button>
+            </div>
+
+            <div id="rank-step-form" class="shop-step">
+                <h2>Step 2: Fill out customer information </h2>
+                <div class="form-card">
+                    <div class="form-group">
+                        <label>Name: <span style="color:rgb(0, 0, 0);"></span></label>
+                        <input type="text" id="input-ign" placeholder="nhom pum">
+                    </div>
+                    <div class="form-group">
+                        <label>Email: <span style="color:red;"></span></label>
+                        <input type="email" id="input-email" placeholder="name@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Platform:</label>
+                        <select id="input-platform">
+                            <option value="Java">Java Edition</option>
+                            <option value="Bedrock">Bedrock Edition</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Promo Code:</label>
+                        <input type="text" id="input-promo" placeholder="Enter if available (optional)">
+                    </div>
+                    <div class="form-buttons">
+                        <button class="btn-secondary" onclick="backToSelectStep()">BACK</button>
+                        <button class="btn-next" onclick="goToCheckoutStep()">NEXT </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rank-step-checkout" class="shop-step">
+                <h2>🛒 Step 3: Review Payment Details</h2>
+                <div class="checkout-card">
+                    <div class="checkout-details">
+                        <p><strong>Service Type:</strong> <span id="chk-category">-</span></p>
+                        <p><strong>Selected Item:</strong> <span id="chk-item" class="text-highlight">-</span></p>
+                        <p><strong>Player Name:</strong> <span id="chk-ign">-</span></p>
+                        <p><strong>Email:</strong> <span id="chk-email">-</span></p>
+                        <p><strong>Platform:</strong> <span id="chk-platform">-</span></p>
+                        <p><strong>Total Price:</strong> <span id="chk-usd" style="color:#d32f2f; font-weight:bold;">$0.00</span></p>
+                    </div>
+                    <div class="form-buttons" style="margin-top: 25px;">
+                        <button class="btn-danger" onclick="backToFormStep()">Cancel</button>
+                        <button class="btn-success" onclick="confirmAndPay()">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-life" class="store-page">
+            <h2>Life</h2>
+            <p style="margin-top:15px; color:#a0aec0;">This page is preparing the same as the Rank page.</p>
+        </section>
+
+        <section id="page-support" class="store-page">
+            <h2>📞 Support</h2>
+            <p style="margin-top:15px; color:#a0aec0;">If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
+        </section>
+
     </div>
 
-    <div id="buyModal" class="modal">
+    <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="khqr-title">KHQR PAYMENT</h2>
+            <p class="khqr-subtitle">scan any banking in cambodia.</p>
             
-            <h2>BUY RANK: <span id="modal-rank-name" style="color: var(--primary-color); text-shadow: 0 0 10px rgba(0,123,255,0.3);"></span></h2>
-            <p style="color: var(--text-muted); margin-top: 0; font-size: 14px;">បំពេញព័ត៌មានខាងក្រោមដើម្បីបន្តការទិញ</p>
-            
-            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 20px 0;">
-
-            <div id="step-1-input">
-                <form onsubmit="goToStep2(event)">
-                    <div class="input-group">
-                        <label>Minecraft Username</label>
-                        <input type="text" id="mc-username" required placeholder="your minecraft username">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" id="mc-email" required placeholder="your email address">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label>Promo Code</label>
-                        <div class="promo-container">
-                            <input type="text" id="mc-promo" placeholder="Put it here">
-                            <button type="button" class="btn-promo" onclick="applyPromo()">Apply</button>
-                        </div>
-                        <span id="promo-message" style="font-size: 12px; display: block; margin-top: 5px;"></span>
-                    </div>
-
-                    <button type="submit" class="btn-block btn-primary" style="margin-top: 10px;">Submit (បញ្ជូន)</button>
-                </form>
-            </div>
-
-            <div id="step-2-verify" style="display: none; text-align: center;">
-                <div class="verify-box">
-                    <div style="color: var(--warning-color); font-weight: bold; margin-bottom: 15px; font-size: 15px; display: flex; align-items: center; gap: 8px;">
-                        <span></span> សូមផ្ទៀងផ្ទាត់ព័ត៌មានរបស់អ្នក៖
-                    </div>
-                    <div class="verify-row">
-                        <span class="verify-label">Username</span>
-                        <span class="verify-value" id="verify-username"></span>
-                    </div>
-                    <div class="verify-row">
-                        <span class="verify-label">Email</span>
-                        <span class="verify-value" id="verify-email" style="font-size: 13px;"></span>
-                    </div>
-                    <div class="verify-row">
-                        <span class="verify-label">Rank</span>
-                        <span class="verify-value" id="verify-rank" style="color: var(--primary-color);"></span>
-                    </div>
-                    <div class="verify-row" id="promo-row" style="display: none;">
-                        <span class="verify-label">Discount</span>
-                        <span class="verify-value" id="verify-discount" style="color: #ff5252;">-$0.00</span>
-                    </div>
-                </div>
-
-                <div class="total-box">
-                    <span class="total-title">Total</span>
-                    <span class="total-amount" id="verify-total">$0.00</span>
-                </div>
-
-                <div style="display: flex; gap: 12px; margin-top: 25px;">
-                    <button onclick="backToStep1()" class="btn-block btn-secondary" style="flex: 1;">Back</button>
-                    <button onclick="generatePayment()" class="btn-block btn-success" style="flex: 1;">Next</button>
+            <div class="qr-container">
+                <div id="qrcode-box"></div>
+                <div id="qr-timeout-overlay" class="timeout-overlay">
+                    <p>❌ Excessive QR code</p>
                 </div>
             </div>
 
-            <div id="step-3-payment" style="display: none; text-align: center;">
-                <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 5px;">សូមបើកកម្មវិធីធនាគារ រួចស្កែន KHQR ដើម្បីទូទាត់៖</p>
-                <div class="qr-holder">
-                    <canvas id="khqr-canvas"></canvas>
-                </div>
-                
-                <div style="background: rgba(255, 152, 0, 0.1); padding: 10px 18px; border-radius: 10px; font-size: 14px; color: var(--warning-color); font-weight: bold; display: inline-flex; align-items: center; gap: 8px;">
-                    <span class="spinner"></span>
-                    កំពុងរង់ចាំការស្កែនផ្ទៀងផ្ទាត់...
-                </div>
+            <p class="khqr-msg">Pay to buy rank now, faster.</p>
+
+            <div class="timer-box">
+                This QR code is valid: <span id="countdown-timer">07:00</span>
             </div>
 
+            <div class="loading-status" id="payment-spinner">
+                <div class="spinner"></div>
+                <p>Waiting for bank transfer...</p>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.4/build/qrcode.min.js"></script>
+    <div id="successAlert" class="alert-modal">
+        <div class="alert-content">
+            <div class="success-icon-box">
+                <div class="checkmark-circle">
+                    <div class="checkmark draw"></div>
+                </div>
+            </div>
+            <h2>Payment Successfully!</h2>
+            <p>Your payment has been processed successfully. The system will deliver the item in-game shortly!</p>
+            <button class="btn-alert-close" onclick="closeSuccessAlert()">Acknowledge</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
