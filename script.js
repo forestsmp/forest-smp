@@ -1,6 +1,6 @@
 const API_BASE_URL = "https://api.apsara.lol";
 
-// Object សម្រាប់ផ្ទុកទិន្នន័យនៃការទិញបច្ចុប្បន្ន
+// ================= STATE =================
 let currentOrder = {
     category: '',
     value: '',
@@ -13,52 +13,66 @@ let currentOrder = {
 let countdownInterval = null;
 let statusPollInterval = null;
 
-// 🔄 មុខងារគ្រប់គ្រងការប្តូរទំព័រ (Navigation Page Switching)
+// ================= NAVIGATION =================
 function showPage(pageId) {
-    document.querySelectorAll('.store-page').forEach(page => page.classList.remove('active'));
-    document.getElementById(`page-${pageId}`).classList.add('active');
-    
-    // បើចូលទៅទំព័រ Rank ត្រូវ Reset ទៅកាន់កន្លែងរើសទំនិញដំបូងវិញ
-    if(pageId === 'rank') {
+    document.querySelectorAll('.store-page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    const page = document.getElementById(`page-${pageId}`);
+    if (page) page.classList.add('active');
+
+    if (pageId === 'rank') {
         backToSelectStep();
     }
 }
 
-// 🛒 មុខងារចុចជ្រើសរើសទំនិញ
+// ================= SELECT ITEM =================
 function selectItem(category, value, price) {
     currentOrder.category = category;
     currentOrder.value = value;
     currentOrder.price = price;
 
-    // បន្ថែម Class Selected ទៅលើ Card ដែលបានជ្រើសរើស
-    document.querySelectorAll('.rank-card').forEach(card => card.classList.remove('selected'));
-    document.getElementById(`card-${value}`).classList.add('selected');
+    document.querySelectorAll('.rank-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+
+    const card = document.getElementById(`card-${value}`);
+    if (card) card.classList.add('selected');
 }
 
-// ➡️ ទៅកាន់ទម្រង់បំពេញព័ត៌មាន (Step 2)
+// ================= STEP NAVIGATION =================
 function goToFormStep() {
     if (!currentOrder.value) {
-        alert("❌ សូមមេត្តាជ្រើសរើសយក Rank ណាមួយជាមុនសិន!");
+        showError("❌ សូមជ្រើសរើស Rank ជាមុនសិន!");
         return;
     }
+
     document.getElementById('rank-step-select').classList.remove('active');
     document.getElementById('rank-step-form').classList.add('active');
 }
 
 function backToSelectStep() {
-    document.getElementById('rank-step-form').classList.remove('active');
-    document.getElementById('rank-step-checkout').classList.remove('active');
-    document.getElementById('rank-step-select').classList.add('active');
+    document.getElementById('rank-step-form')?.classList.remove('active');
+    document.getElementById('rank-step-checkout')?.classList.remove('active');
+    document.getElementById('rank-step-select')?.classList.add('active');
 }
 
-// ➡️ ទៅកាន់ទំព័រ Checkout (Step 3)
+// ================= CHECKOUT STEP =================
 function goToCheckoutStep() {
     const ign = document.getElementById('input-ign').value.trim();
     const email = document.getElementById('input-email').value.trim();
     const platform = document.getElementById('input-platform').value;
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!ign || !email) {
-        alert("❌ សូមបំពេញព័ត៌មានចាំបាច់ IGN និង Email ឱ្យបានគ្រប់ជ្រុងជ្រោយ!");
+        showError("❌ សូមបំពេញ IGN និង Email!");
+        return;
+    }
+
+    if (!emailRegex.test(email)) {
+        showError("❌ Email មិនត្រឹមត្រូវ!");
         return;
     }
 
@@ -66,7 +80,6 @@ function goToCheckoutStep() {
     currentOrder.email = email;
     currentOrder.platform = platform;
 
-    // បង្ហាញព័ត៌មាននៅលើទំព័រ Check out ឱ្យអតិថិជនផ្ទៀងផ្ទាត់
     document.getElementById('chk-category').innerText = currentOrder.category.toUpperCase();
     document.getElementById('chk-item').innerText = currentOrder.value;
     document.getElementById('chk-ign').innerText = currentOrder.ign;
@@ -83,127 +96,154 @@ function backToFormStep() {
     document.getElementById('rank-step-form').classList.add('active');
 }
 
-// ✅ យល់ព្រមបង់ប្រាក់ និងហៅទៅ API
+// ================= PAYMENT =================
 async function confirmAndPay() {
-    // បើកផ្ទាំង KHQR Popup រង់ចាំកូដ
-    document.getElementById("qrcode-box").innerHTML = "<p style='font-size:13px;color:#666;'>កំពុងបង្កើតកូដទូទាត់...</p>";
-    document.getElementById("qr-timeout-overlay").style.display = "none";
+    const payBtn = document.getElementById('pay-btn');
+    if (payBtn) payBtn.disabled = true;
+
     document.getElementById("paymentModal").style.display = "block";
+    document.getElementById("qrcode-box").innerHTML =
+        "<p style='font-size:13px;color:#666;'>កំពុងបង្កើត QR...</p>";
 
     const payload = {
         player_name: currentOrder.ign,
         platform: currentOrder.platform,
-        category: currentOrder.category.toLowerCase(), // Fixed: backend forces lowercase 'rank'
+        category: currentOrder.category.toLowerCase(),
         value: currentOrder.value
     };
+
+    const controller = new AbortController();
+    setTimeout(() => controller.abort(), 10000);
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/create-order`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            signal: controller.signal
         });
+
         const result = await response.json();
 
         if (result.status === "success") {
-            // ១. បង្កើតរូប QR Code
             document.getElementById("qrcode-box").innerHTML = "";
+
             new QRCode(document.getElementById("qrcode-box"), {
                 text: result.khqr_string,
                 width: 190,
                 height: 190
             });
 
-            // ២. ចាប់ផ្តើមនាឡិការាប់ថយក្រោយ ៧ នាទី (420 វិនាទី)
             startCountdownTimer(420);
-
-            // ៣. ចាប់ផ្តើមយន្តការ Polling តាមដានលុយចូលពី Bank
             startPaymentPolling(result.transaction_id);
-
         } else {
-            alert("⚠️ ដំណើរការខុសប្រក្រតី: " + result.message);
+            showError("⚠️ " + result.message);
             closeModal();
         }
+
     } catch (error) {
-    console.error("API Error:", error); // ពិនិត្យក្នុង Console F12
-    alert("❌ មិនអាចតភ្ជាប់ទៅកាន់ API Server បានទេ! សូមពិនិត្យមើល Cloudflare Tunnel នៅលើ Server។");
-    closeModal();
-}
+        console.error(error);
+        showError("❌ មិនអាចភ្ជាប់ Server បានទេ!");
+        closeModal();
+    }
+
+    if (payBtn) payBtn.disabled = false;
 }
 
-// ⏰ យន្តការរាប់ថយក្រោយ ៧ នាទី
-function startCountdownTimer(durationInSeconds) {
-    if (countdownInterval) clearInterval(countdownInterval);
-    
-    let timer = durationInSeconds;
-    const timerDisplay = document.getElementById('countdown-timer');
+// ================= COUNTDOWN =================
+function startCountdownTimer(seconds) {
+    clearInterval(countdownInterval);
+
+    let timer = seconds;
+    const display = document.getElementById("countdown-timer");
 
     countdownInterval = setInterval(() => {
-        let minutes = parseInt(timer / 60, 10);
-        let seconds = parseInt(timer % 60, 10);
+        let m = String(Math.floor(timer / 60)).padStart(2, "0");
+        let s = String(timer % 60).padStart(2, "0");
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        timerDisplay.innerText = `${minutes}:${seconds}`;
+        display.innerText = `${m}:${s}`;
 
         if (--timer < 0) {
             clearInterval(countdownInterval);
-            clearInterval(statusPollInterval); // ឈប់ឆែកស្ថានភាពបង់ប្រាក់
-            
-            // បង្ហាញ Overlay ប្រាប់ថា QR លែងដំណើរការហើយ (បដិសេធចោល)
+            clearInterval(statusPollInterval);
+
             document.getElementById("qr-timeout-overlay").style.display = "flex";
-            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'>❌ កូដបង់ប្រាក់នេះត្រូវបានបដិសេធដោយប្រព័ន្ធធនាគារ!</p>";
-            
-            // បិទផ្ទាំងទូទាត់ក្រោយពេល ៤ វិនាទី
+            document.getElementById("payment-spinner").innerHTML =
+                "<p style='color:red;font-weight:bold;'>❌ QR Expired</p>";
+
             setTimeout(closeModal, 4000);
         }
     }, 1000);
 }
 
-// 🔍 យន្តការឆែកមើលការបាញ់លុយ (Polling Status)
+// ================= POLLING =================
 function startPaymentPolling(transactionId) {
-    if (statusPollInterval) clearInterval(statusPollInterval);
+    clearInterval(statusPollInterval);
 
     statusPollInterval = setInterval(async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/check-status/${transactionId}`);
-            const result = await response.json();
+            const res = await fetch(`${API_BASE_URL}/api/check-status/${transactionId}`);
+            const data = await res.json();
 
-            if (result.status === "success" && result.order_status === "paid") {
-                // ឈប់រាប់ម៉ោង និងឈប់ Polling
+            if (data.status === "success" && data.order_status === "paid") {
                 clearInterval(countdownInterval);
                 clearInterval(statusPollInterval);
-                
-                // បិទផ្ទាំង KHQR Popup រួចបើក Custom Alert ឡូយៗជំនួសវិញ
-                document.getElementById("paymentModal").style.display = "none";
+
+                closeModal();
                 triggerSuccessAlert();
             }
-        } catch (error) {
-            console.error("Polling error:", error);
+        } catch (err) {
+            console.error("Polling error:", err);
         }
     }, 4000);
 }
 
-// <tr> បើក Custom Success Alert
+// ================= SUCCESS ALERT =================
 function triggerSuccessAlert() {
-    const alertModal = document.getElementById("successAlert");
-    alertModal.style.display = "flex";
-    setTimeout(() => { alertModal.classList.add("active"); }, 50);
+    const modal = document.getElementById("successAlert");
+    modal.style.display = "flex";
+    setTimeout(() => modal.classList.add("active"), 50);
 }
 
-// ❌ បិទ Custom Success Alert និងនាំទៅកាន់ទំព័រ Home វិញ
 function closeSuccessAlert() {
-    const alertModal = document.getElementById("successAlert");
-    alertModal.classList.remove("active");
-    setTimeout(() => { 
-        alertModal.style.display = "none"; 
-        showPage('home'); // នាំត្រឡប់មក Home វិញ
+    const modal = document.getElementById("successAlert");
+    modal.classList.remove("active");
+
+    setTimeout(() => {
+        modal.style.display = "none";
+        resetOrder();
+        showPage("home");
     }, 300);
 }
 
+// ================= CLOSE MODAL =================
 function closeModal() {
     document.getElementById("paymentModal").style.display = "none";
-    if (countdownInterval) clearInterval(countdownInterval);
-    if (statusPollInterval) clearInterval(statusPollInterval);
+    clearInterval(countdownInterval);
+    clearInterval(statusPollInterval);
+}
+
+// ================= RESET =================
+function resetOrder() {
+    currentOrder = {
+        category: '',
+        value: '',
+        price: 0,
+        ign: '',
+        email: '',
+        platform: ''
+    };
+
+    document.querySelectorAll(".rank-card").forEach(c =>
+        c.classList.remove("selected")
+    );
+}
+
+// ================= ERROR MODAL =================
+function showError(message) {
+    const box = document.getElementById("errorModal");
+    const text = document.getElementById("error-text");
+
+    if (text) text.innerText = message;
+    if (box) box.style.display = "flex";
 }
