@@ -14,7 +14,7 @@ let countdownInterval = null;
 let statusPollInterval = null;
 let paymentConfirmed = false;
 
-// ================= SAFE ERROR HANDLER =================
+// ================= ERROR HANDLER =================
 function getErrorMessage(res) {
     return res?.error || res?.message || "Unknown error";
 }
@@ -91,11 +91,6 @@ function goToCheckoutStep() {
     document.getElementById('rank-step-checkout').classList.add('active');
 }
 
-function backToFormStep() {
-    document.getElementById('rank-step-checkout').classList.remove('active');
-    document.getElementById('rank-step-form').classList.add('active');
-}
-
 // ================= PAYMENT =================
 async function confirmAndPay() {
 
@@ -124,10 +119,21 @@ async function confirmAndPay() {
 
         const result = await res.json().catch(() => null);
 
-        // ================= FIX: SUPPORT BOTH API FORMAT =================
+        console.log("CREATE ORDER RESPONSE:", result); // 🔥 DEBUG IMPORTANT
+
         const isSuccess =
             result?.success === true ||
             result?.status === "success";
+
+        // ================= IMPORTANT FIX =================
+        const transactionId = result?.transaction_id;
+
+        if (!transactionId) {
+            alert("❌ transaction_id មិនបានទទួលពី API");
+            console.error("Missing transaction_id:", result);
+            closeModal();
+            return;
+        }
 
         if (isSuccess) {
 
@@ -140,7 +146,7 @@ async function confirmAndPay() {
             });
 
             startCountdownTimer(420);
-            startPaymentPolling(result.transaction_id);
+            startPaymentPolling(transactionId);
 
         } else {
             alert("⚠️ " + getErrorMessage(result));
@@ -188,6 +194,12 @@ function startCountdownTimer(seconds) {
 
 // ================= POLLING =================
 function startPaymentPolling(transactionId) {
+
+    if (!transactionId) {
+        console.error("❌ Missing transactionId for polling");
+        return;
+    }
+
     clearInterval(statusPollInterval);
 
     statusPollInterval = setInterval(async () => {
@@ -196,6 +208,9 @@ function startPaymentPolling(transactionId) {
             const res = await fetch(`${API_BASE_URL}/api/check-status/${transactionId}`);
             const data = await res.json().catch(() => null);
 
+            console.log("STATUS RESPONSE:", data); // 🔥 DEBUG
+
+            // ================= FIX: SUPPORT BOTH API TYPES =================
             const isPaid =
                 data?.success === true &&
                 data?.order_status === "paid";
@@ -209,6 +224,11 @@ function startPaymentPolling(transactionId) {
 
                 closeModal();
                 triggerSuccessAlert();
+            }
+
+            // ================= HANDLE NOT FOUND =================
+            if (data?.error === "Not found") {
+                console.warn("Transaction not found yet...");
             }
 
         } catch (err) {
