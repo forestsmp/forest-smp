@@ -13,6 +13,9 @@ let currentOrder = {
 let countdownInterval = null;
 let statusPollInterval = null;
 
+// 🔒 IMPORTANT LOCK FLAG (FIX AUTO CLOSE BUG)
+let paymentConfirmed = false;
+
 // ================= NAVIGATION =================
 function showPage(pageId) {
     document.querySelectorAll('.store-page').forEach(page => {
@@ -41,10 +44,10 @@ function selectItem(category, value, price) {
     if (card) card.classList.add('selected');
 }
 
-// ================= STEP NAVIGATION =================
+// ================= STEPS =================
 function goToFormStep() {
     if (!currentOrder.value) {
-        showError("❌ សូមជ្រើសរើស Rank ជាមុនសិន!");
+        alert("❌ សូមជ្រើសរើស Rank ជាមុនសិន!");
         return;
     }
 
@@ -58,7 +61,7 @@ function backToSelectStep() {
     document.getElementById('rank-step-select')?.classList.add('active');
 }
 
-// ================= CHECKOUT STEP =================
+// ================= CHECKOUT =================
 function goToCheckoutStep() {
     const ign = document.getElementById('input-ign').value.trim();
     const email = document.getElementById('input-email').value.trim();
@@ -67,12 +70,12 @@ function goToCheckoutStep() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!ign || !email) {
-        showError("❌ សូមបំពេញ IGN និង Email!");
+        alert("❌ សូមបំពេញ IGN និង Email!");
         return;
     }
 
     if (!emailRegex.test(email)) {
-        showError("❌ Email មិនត្រឹមត្រូវ!");
+        alert("❌ Email មិនត្រឹមត្រូវ!");
         return;
     }
 
@@ -98,6 +101,10 @@ function backToFormStep() {
 
 // ================= PAYMENT =================
 async function confirmAndPay() {
+
+    // 🔒 RESET LOCK EVERY NEW PAYMENT
+    paymentConfirmed = false;
+
     const payBtn = document.getElementById('pay-btn');
     if (payBtn) payBtn.disabled = true;
 
@@ -112,20 +119,17 @@ async function confirmAndPay() {
         value: currentOrder.value
     };
 
-    const controller = new AbortController();
-    setTimeout(() => controller.abort(), 10000);
-
     try {
         const response = await fetch(`${API_BASE_URL}/api/create-order`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-            signal: controller.signal
+            body: JSON.stringify(payload)
         });
 
         const result = await response.json();
 
         if (result.status === "success") {
+
             document.getElementById("qrcode-box").innerHTML = "";
 
             new QRCode(document.getElementById("qrcode-box"), {
@@ -136,14 +140,15 @@ async function confirmAndPay() {
 
             startCountdownTimer(420);
             startPaymentPolling(result.transaction_id);
+
         } else {
-            showError("⚠️ " + result.message);
+            alert("⚠️ " + result.message);
             closeModal();
         }
 
-    } catch (error) {
-        console.error(error);
-        showError("❌ មិនអាចភ្ជាប់ Server បានទេ!");
+    } catch (err) {
+        console.error(err);
+        alert("❌ Server Error");
         closeModal();
     }
 
@@ -158,21 +163,24 @@ function startCountdownTimer(seconds) {
     const display = document.getElementById("countdown-timer");
 
     countdownInterval = setInterval(() => {
+
         let m = String(Math.floor(timer / 60)).padStart(2, "0");
         let s = String(timer % 60).padStart(2, "0");
 
         display.innerText = `${m}:${s}`;
 
         if (--timer < 0) {
+
+            // 🔒 STOP IF ALREADY PAID
+            if (paymentConfirmed) return;
+
             clearInterval(countdownInterval);
             clearInterval(statusPollInterval);
 
             document.getElementById("qr-timeout-overlay").style.display = "flex";
-            document.getElementById("payment-spinner").innerHTML =
-                "<p style='color:red;font-weight:bold;'>❌ QR Expired</p>";
-
-            setTimeout(closeModal, 4000);
+            closeModal();
         }
+
     }, 1000);
 }
 
@@ -186,19 +194,24 @@ function startPaymentPolling(transactionId) {
             const data = await res.json();
 
             if (data.status === "success" && data.order_status === "paid") {
+
+                // 🔒 LOCK PAYMENT
+                paymentConfirmed = true;
+
                 clearInterval(countdownInterval);
                 clearInterval(statusPollInterval);
 
                 closeModal();
                 triggerSuccessAlert();
             }
+
         } catch (err) {
             console.error("Polling error:", err);
         }
     }, 4000);
 }
 
-// ================= SUCCESS ALERT =================
+// ================= SUCCESS =================
 function triggerSuccessAlert() {
     const modal = document.getElementById("successAlert");
     modal.style.display = "flex";
@@ -234,16 +247,7 @@ function resetOrder() {
         platform: ''
     };
 
-    document.querySelectorAll(".rank-card").forEach(c =>
-        c.classList.remove("selected")
-    );
-}
-
-// ================= ERROR MODAL =================
-function showError(message) {
-    const box = document.getElementById("errorModal");
-    const text = document.getElementById("error-text");
-
-    if (text) text.innerText = message;
-    if (box) box.style.display = "flex";
+    document.querySelectorAll(".rank-card").forEach(c => {
+        c.classList.remove("selected");
+    });
 }
