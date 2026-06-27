@@ -14,12 +14,12 @@ let countdownInterval = null;
 let statusPollInterval = null;
 let paymentConfirmed = false;
 
-// ================= ERROR HANDLER =================
+// ================= ERROR SAFE =================
 function getErrorMessage(res) {
     return res?.error || res?.message || "Unknown error";
 }
 
-// ================= NAVIGATION =================
+// ================= NAV =================
 function showPage(pageId) {
     document.querySelectorAll('.store-page').forEach(p => p.classList.remove('active'));
 
@@ -29,7 +29,7 @@ function showPage(pageId) {
     if (pageId === 'rank') backToSelectStep();
 }
 
-// ================= SELECT ITEM =================
+// ================= SELECT =================
 function selectItem(category, value, price) {
     currentOrder.category = category;
     currentOrder.value = value;
@@ -44,7 +44,7 @@ function selectItem(category, value, price) {
 // ================= STEPS =================
 function goToFormStep() {
     if (!currentOrder.value) {
-        alert("❌ សូមជ្រើសរើស Rank ជាមុនសិន!");
+        alert("❌ សូមជ្រើសរើស Rank!");
         return;
     }
 
@@ -67,7 +67,7 @@ function goToCheckoutStep() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!ign || !email) {
-        alert("❌ សូមបំពេញ IGN និង Email!");
+        alert("❌ សូមបំពេញព័ត៌មាន!");
         return;
     }
 
@@ -101,7 +101,7 @@ async function confirmAndPay() {
 
     document.getElementById("paymentModal").style.display = "block";
     document.getElementById("qrcode-box").innerHTML =
-        "<p style='color:#666;font-size:13px;'>កំពុងបង្កើត QR...</p>";
+        "<p style='color:#666;'>Generating QR...</p>";
 
     const payload = {
         player_name: currentOrder.ign,
@@ -119,43 +119,49 @@ async function confirmAndPay() {
 
         const result = await res.json().catch(() => null);
 
-        console.log("CREATE ORDER RESPONSE:", result); // 🔥 DEBUG IMPORTANT
+        console.log("CREATE ORDER RESPONSE:", result);
 
         const isSuccess =
             result?.success === true ||
             result?.status === "success";
 
-        // ================= IMPORTANT FIX =================
-        const transactionId = result?.transaction_id;
+        // ================= SAFE transaction_id extraction =================
+        const transactionId =
+            result?.transaction_id ||
+            result?.data?.transaction_id ||
+            result?.data?.id ||
+            result?.order_id ||
+            result?.id;
 
-        if (!transactionId) {
-            alert("❌ transaction_id មិនបានទទួលពី API");
-            console.error("Missing transaction_id:", result);
+        console.log("EXTRACTED transactionId:", transactionId);
+
+        if (!isSuccess) {
+            alert("⚠️ " + getErrorMessage(result));
             closeModal();
             return;
         }
 
-        if (isSuccess) {
-
-            document.getElementById("qrcode-box").innerHTML = "";
-
-            new QRCode(document.getElementById("qrcode-box"), {
-                text: result.khqr_string,
-                width: 190,
-                height: 190
-            });
-
-            startCountdownTimer(420);
-            startPaymentPolling(transactionId);
-
-        } else {
-            alert("⚠️ " + getErrorMessage(result));
+        if (!transactionId) {
+            alert("❌ transaction_id មិនបានទទួលពី API");
             closeModal();
+            return;
         }
+
+        // ================= QR =================
+        document.getElementById("qrcode-box").innerHTML = "";
+
+        new QRCode(document.getElementById("qrcode-box"), {
+            text: result.khqr_string || "",
+            width: 190,
+            height: 190
+        });
+
+        startCountdownTimer(420);
+        startPaymentPolling(transactionId);
 
     } catch (err) {
         console.error(err);
-        alert("❌ Server មិនអាចភ្ជាប់បាន");
+        alert("❌ Server Error");
         closeModal();
     }
 
@@ -196,7 +202,7 @@ function startCountdownTimer(seconds) {
 function startPaymentPolling(transactionId) {
 
     if (!transactionId) {
-        console.error("❌ Missing transactionId for polling");
+        console.error("Missing transactionId");
         return;
     }
 
@@ -208,9 +214,8 @@ function startPaymentPolling(transactionId) {
             const res = await fetch(`${API_BASE_URL}/api/check-status/${transactionId}`);
             const data = await res.json().catch(() => null);
 
-            console.log("STATUS RESPONSE:", data); // 🔥 DEBUG
+            console.log("STATUS RESPONSE:", data);
 
-            // ================= FIX: SUPPORT BOTH API TYPES =================
             const isPaid =
                 data?.success === true &&
                 data?.order_status === "paid";
@@ -226,9 +231,8 @@ function startPaymentPolling(transactionId) {
                 triggerSuccessAlert();
             }
 
-            // ================= HANDLE NOT FOUND =================
             if (data?.error === "Not found") {
-                console.warn("Transaction not found yet...");
+                console.warn("Order not found yet (backend issue or delay)");
             }
 
         } catch (err) {
@@ -256,7 +260,7 @@ function closeSuccessAlert() {
     }, 300);
 }
 
-// ================= CLOSE MODAL =================
+// ================= CLOSE =================
 function closeModal() {
     document.getElementById("paymentModal").style.display = "none";
     clearInterval(countdownInterval);
