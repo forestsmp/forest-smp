@@ -226,7 +226,7 @@ function closeSuccessAlert() {
         modal.style.display = "none";
         resetOrder();
         showPage("home");
-    }, 300);
+    }, 3000);
 }
 
 // ================= CLOSE MODAL =================
