@@ -1,21 +1,25 @@
 <!DOCTYPE html>
-<html lang="km">
+<html>
 <head>
     <title>Merchant Shop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://checkout.bakongrelay.com wss://checkout.bakongrelay.com;">
     <script src="https://checkout.bakongrelay.com/static/js/checkout.min.js"></script>
 </head>
-<body style="background-color: #104e4e;">
-
-    <button onclick="BakongRelay.pay('pQOjrGGv1Xkr')" style="padding: 15px; background: #0b2447; color: white;">
-        Checkout Now
-    </button>
+<body>
+    <button id="payButton">ទូទាត់ឥឡូវនេះ</button>
 
     <script>
+        // ឧទាហរណ៍ Session ID ដែលទទួលបានពី Backend
+        const sessionId = "pQ0jrGGv1Xkr"; 
+
+        document.getElementById('payButton').onclick = function() {
+            BakongRelay.pay(sessionId);
+        };
+
+        // ស្ដាប់ព្រឹត្តិការណ៍នៅពេលទូទាត់ជោគជ័យ
         window.addEventListener('bakongPaymentSuccess', function(e) {
-            console.log("Payment completed for:", e.detail.session_id);
+            console.log("ការទូទាត់ជោគជ័យ:", e.detail.session_id);
+            alert("អរគុណសម្រាប់ការទូទាត់!");
         });
-    </script
-</body
-</html}
+    </script>
+</body>
+</html>
