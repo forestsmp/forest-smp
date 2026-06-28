@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:55071"; // Fixed port to match Python backend
+const API_BASE_URL = "http://us.apsara.lol:55071"; // Fixed port to match Python backend
 
 // Object សម្រាប់ផ្ទុកទិន្នន័យនៃការទិញបច្ចុប្បន្ន
 let currentOrder = {
