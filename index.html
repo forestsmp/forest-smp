@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOREST-SMP</title>
+    <title>FOREST-SMP | Store</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <nav class="navbar">
-        <div class="nav-logo" onclick="showPage('home')">FOREST-SMP</div>
+        <div class="nav-logo" onclick="showPage('home')">FOREST<br>SMP</div>
         <ul class="nav-links">
-            <li><a href="#" onclick="showPage('home')">Home</a></li>
-            <li><a href="#" onclick="showPage('rank')">Rank</a></li>
-            <li><a href="#" onclick="showPage('life')">Life</a></li>
-            <li><a href="#" onclick="showPage('support')">Support</a></li>
+            <li><a href="#" onclick="showPage('home')">HOME</a></li>
+            <li><a href="#" onclick="showPage('rank')">RANK</a></li>
+            <li><a href="#" onclick="showPage('life')">LIFE</a></li>
+            <li><a href="#" onclick="showPage('support')">SUPPORT</a></li>
         </ul>
     </nav>
 
@@ -23,17 +23,153 @@
         
         <section id="page-home" class="store-page active">
             <div class="welcome-text">
-                <h1>Welcome to FOREST-SMP</h1>
-                <p>Please select the type of service you would like to view or purchase below</p>
+                <h1>WELCOME TO FOREST-SMP</h1>
+                <p>CHOOSE A CATEGORY BELOW TO CONTINUE</p>
             </div>
+            
             <div class="home-boxes">
-                <div class="home-box box-views" onclick="showPage('support')">
-                    <div class="box-icon"></div>
-                    <h3></h3>
-                    <p></p>
-                </div>
                 <div class="home-box box-rank" onclick="showPage('rank')">
-                    <div class="box-icon"></div>
+                    <h3>RANK</h3>
+                    <p class="card-subtitle">CLICK TO BUY</p>
+                </div>
+                <div class="home-box box-views" onclick="showPage('support')">
+                    <h3>SUPPORT</h3>
+                    <p class="card-subtitle">CLICK TO BUY</p>
+                </div>
+                <div class="home-box box-life" onclick="showPage('life')">
+                    <h3>LIFE</h3>
+                    <p class="card-subtitle">CLICK TO BUY</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-rank" class="store-page">
+            
+            <div id="rank-step-select" class="shop-step active">
+                <h2>STEP 1: SELECT RANK STATUS</h2>
+                <div class="grid-container">
+                    <div class="rank-card" id="card-Acacia" onclick="selectItem('rank', 'Acacia', 0.01)">
+                        <div class="badge rank-acacia">ACACIA</div>
+                        <div class="price">$0.01 <span class="khr"></span></div>
+                    </div>
+                    <div class="rank-card" id="card-Azalea" onclick="selectItem('rank', 'Azalea', 0.02)">
+                        <div class="badge rank-azalea">AZALEA</div>
+                        <div class="price">$0.02 <span class="khr"></span></div>
+                    </div>
+                    <div class="rank-card" id="card-Jungle" onclick="selectItem('rank', 'Jungle', 0.03)">
+                        <div class="badge rank-jungle">JUNGLE</div>
+                        <div class="price">$0.03 <span class="khr"></span></div>
+                    </div>
+                </div>
+                <button class="btn-next" onclick="goToFormStep()">NEXT &rarr;</button>
+            </div>
+
+            <div id="rank-step-form" class="shop-step">
+                <h2>STEP 2: FILL OUT CUSTOMER INFORMATION</h2>
+                <div class="form-card">
+                    <div class="form-group">
+                        <label>NAME:</label>
+                        <input type="text" id="input-ign" placeholder="Minecraft Username">
+                    </div>
+                    <div class="form-group">
+                        <label>EMAIL:</label>
+                        <input type="email" id="input-email" placeholder="name@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>PLATFORM:</label>
+                        <select id="input-platform">
+                            <option value="Java">JAVA EDITION</option>
+                            <option value="Bedrock">BEDROCK EDITION</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>PROMO CODE:</label>
+                        <input type="text" id="input-promo" placeholder="Enter if available (optional)">
+                    </div>
+                    <div class="form-buttons">
+                        <button class="btn-secondary" onclick="backToSelectStep()">BACK</button>
+                        <button class="btn-next" onclick="goToCheckoutStep()">NEXT</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rank-step-checkout" class="shop-step">
+                <h2>🛒 STEP 3: REVIEW PAYMENT DETAILS</h2>
+                <div class="checkout-card">
+                    <div class="checkout-details">
+                        <p><strong>SERVICE TYPE:</strong> <span id="chk-category">-</span></p>
+                        <p><strong>SELECTED ITEM:</strong> <span id="chk-item" class="text-highlight">-</span></p>
+                        <p><strong>PLAYER NAME:</strong> <span id="chk-ign">-</span></p>
+                        <p><strong>EMAIL:</strong> <span id="chk-email">-</span></p>
+                        <p><strong>PLATFORM:</strong> <span id="chk-platform">-</span></p>
+                        <p><strong>TOTAL PRICE:</strong> <span id="chk-usd" style="color:#d32f2f; font-weight:bold;">$0.00</span></p>
+                    </div>
+                    <div class="form-buttons" style="margin-top: 25px;">
+                        <button class="btn-danger" onclick="backToFormStep()">CANCEL</button>
+                        <button class="btn-success" onclick="confirmAndPay()">CONFIRM</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-life" class="store-page">
+            <h2>LIFE</h2>
+            <div class="form-card" style="text-align: center;">
+                <p>This page is preparing the same as the Rank page.</p>
+            </div>
+        </section>
+
+        <section id="page-support" class="store-page">
+            <h2>📞 SUPPORT</h2>
+            <div class="form-card" style="text-align: center;">
+                <p>If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h2 class="khqr-title">KHQR PAYMENT</h2>
+            <p class="khqr-subtitle">SCAN ANY BANKING IN CAMBODIA.</p>
+            
+            <div class="qr-container">
+                <div id="qrcode-box"></div>
+                <div id="qr-timeout-overlay" class="timeout-overlay">
+                    <p>❌ EXPIRED QR CODE</p>
+                </div>
+            </div>
+
+            <p class="khqr-msg">PAY TO BUY RANK NOW, FASTER.</p>
+
+            <div class="timer-box">
+                THIS QR CODE IS VALID: <span id="countdown-timer">07:00</span>
+            </div>
+
+            <div class="loading-status" id="payment-spinner">
+                <div class="spinner"></div>
+                <p>WAITING FOR BANK TRANSFER...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="successAlert" class="alert-modal">
+        <div class="alert-content">
+            <div class="success-icon-box">
+                <div class="checkmark-circle">
+                    <div class="checkmark draw"></div>
+                </div>
+            </div>
+            <h2 style="color: black;">PAYMENT SUCCESSFUL!</h2>
+            <p style="color: black; font-weight: bold;">Your payment has been processed. The system will deliver the item in-game shortly!</p>
+            <button class="btn-success" style="width: 100%; margin-top: 15px;" onclick="closeSuccessAlert()">CLOSE</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
                     <h3></h3>
                     <p></p>
                 </div>
