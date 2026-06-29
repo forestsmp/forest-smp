@@ -1,3 +1,27 @@
+// Use the same localStorage key as admin
+const STORAGE_KEY = 'store_products';
+
+function getProducts() {
+    try {
+        // Try to get from localStorage
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) {
+            return JSON.parse(data);
+        }
+        // If no data, initialize with defaults
+        const defaults = [
+            { id: 1, title: 'Economy Plugin', price: 19.99, discount: 10, category: 'plugins', image: '', stock: 2 },
+            { id: 2, title: 'RPG Plugin', price: 29.99, discount: 0, category: 'plugins', image: '', stock: 0 },
+            { id: 3, title: 'Auto Sell Script', price: 14.99, discount: 20, category: 'scripts', image: '', stock: 1 },
+            { id: 4, title: 'Rank System', price: 24.99, discount: 15, category: 'projects', image: '', stock: 0 }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+        return defaults;
+    } catch {
+        return [];
+    }
+}
+
 const API_BASE_URL = "https://backend-11zq.onrender.com";
 
 let currentProduct = null;
@@ -11,32 +35,8 @@ const categories = [
     { id: 'projects', name: 'Projects', icon: '🚀', color: '#e53935' }
 ];
 
-// ===== PRODUCTS (loaded from localStorage) =====
-function getProducts() {
-    try {
-        return JSON.parse(localStorage.getItem('store_products')) || [];
-    } catch {
-        return [];
-    }
-}
-
-function saveProducts(products) {
-    localStorage.setItem('store_products', JSON.stringify(products));
-}
-
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
-    renderCategories();
-    // Check if we have products, if not add defaults
-    if (getProducts().length === 0) {
-        const defaults = [
-            { id: 1, title: 'Economy Plugin', price: 19.99, discount: 10, category: 'plugins', image: '' },
-            { id: 2, title: 'RPG Plugin', price: 29.99, discount: 0, category: 'plugins', image: '' },
-            { id: 3, title: 'Auto Sell Script', price: 14.99, discount: 20, category: 'scripts', image: '' },
-            { id: 4, title: 'Rank System', price: 24.99, discount: 15, category: 'projects', image: '' }
-        ];
-        saveProducts(defaults);
-    }
     renderCategories();
 });
 
@@ -248,5 +248,28 @@ document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.shiftKey && e.key === 'A') {
         e.preventDefault();
         goToAdmin();
+    }
+});
+
+// ===== REFRESH PRODUCTS WHEN ADMIN MAKES CHANGES =====
+// Listen for storage changes from other tabs/windows
+window.addEventListener('storage', (e) => {
+    if (e.key === STORAGE_KEY) {
+        // Products were updated in another tab
+        const currentPage = document.querySelector('.store-page.active');
+        if (currentPage) {
+            const pageId = currentPage.id.replace('page-', '');
+            if (pageId === 'home') {
+                renderCategories();
+            } else if (pageId === 'shop') {
+                // Re-render current category
+                const categoryName = document.getElementById('shop-category-name').textContent;
+                categories.forEach(cat => {
+                    if (categoryName.includes(cat.name)) {
+                        openCategory(cat.id);
+                    }
+                });
+            }
+        }
     }
 });
