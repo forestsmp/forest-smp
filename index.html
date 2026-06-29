@@ -13,9 +13,9 @@
         <div class="nav-logo" onclick="showPage('home')">FOREST<br>SMP</div>
         <ul class="nav-links">
             <li><a href="#" onclick="showPage('home')">HOME</a></li>
-            <li><a href="#" onclick="showPage('rank')">RANK</a></li>
-            <li><a href="#" onclick="showPage('life')">LIFE</a></li>
-            <li><a href="#" onclick="showPage('support')">SUPPORT</a></li>
+            <li><a href="#" onclick="showPage('plugins')">PLUGINS</a></li>
+            <li><a href="#" onclick="showPage('script')">SCRIPT</a></li>
+            <li><a href="#" onclick="showPage('project')">PROJECT</a></li>
         </ul>
     </nav>
 
@@ -28,36 +28,36 @@
             </div>
             
             <div class="home-boxes">
-                <div class="home-box box-rank" onclick="showPage('rank')">
-                    <h3>RANK</h3>
-                    <p class="card-subtitle">CLICK TO BUY</p>
+                <div class="home-box box-plugins" onclick="showPage('plugins')">
+                    <h3>PLUGINS</h3>
+                    <p class="card-subtitle">CLICK TO VIEW</p>
                 </div>
-                <div class="home-box box-views" onclick="showPage('support')">
-                    <h3>SUPPORT</h3>
+                <div class="home-box box-script" onclick="showPage('script')">
+                    <h3>SCRIPT</h3>
                     <p class="card-subtitle">CLICK TO GET HELP</p>
                 </div>
-                <div class="home-box box-life" onclick="showPage('life')">
-                    <h3>LIFE</h3>
-                    <p class="card-subtitle">CLICK TO BUY</p>
+                <div class="home-box box-project" onclick="showPage('project')">
+                    <h3>PROJECT</h3>
+                    <p class="card-subtitle">CLICK TO VIEW</p>
                 </div>
             </div>
         </section>
 
-        <section id="page-rank" class="store-page">
+        <section id="page-plugins" class="store-page">
             
             <div id="rank-step-select" class="shop-step active">
-                <h2>STEP 1: SELECT RANK STATUS</h2>
+                <h2>STEP 1: SELECT PLUGIN</h2>
                 <div class="grid-container">
-                    <div class="rank-card" id="card-Acacia" onclick="selectItem('rank', 'Acacia', 0.01)">
-                        <div class="badge rank-acacia">ACACIA</div>
+                    <div class="rank-card" id="card-Acacia" onclick="selectItem('plugins', 'Acacia', 0.01)">
+                        <div class="badge rank-acacia">PLUGIN A</div>
                         <div class="price">$0.01</div>
                     </div>
-                    <div class="rank-card" id="card-Azalea" onclick="selectItem('rank', 'Azalea', 0.02)">
-                        <div class="badge rank-azalea">AZALEA</div>
+                    <div class="rank-card" id="card-Azalea" onclick="selectItem('plugins', 'Azalea', 0.02)">
+                        <div class="badge rank-azalea">PLUGIN B</div>
                         <div class="price">$0.02</div>
                     </div>
-                    <div class="rank-card" id="card-Jungle" onclick="selectItem('rank', 'Jungle', 0.03)">
-                        <div class="badge rank-jungle">JUNGLE</div>
+                    <div class="rank-card" id="card-Jungle" onclick="selectItem('plugins', 'Jungle', 0.03)">
+                        <div class="badge rank-jungle">PLUGIN C</div>
                         <div class="price">$0.03</div>
                     </div>
                 </div>
@@ -110,17 +110,17 @@
             </div>
         </section>
 
-        <section id="page-life" class="store-page">
-            <h2>LIFE</h2>
+        <section id="page-project" class="store-page">
+            <h2>PROJECT</h2>
             <div class="form-card" style="text-align: center;">
-                <p>This page is preparing the same as the Rank page.</p>
+                <p>This page is preparing the same as the Plugins page.</p>
             </div>
         </section>
 
-        <section id="page-support" class="store-page">
-            <h2>📞 SUPPORT</h2>
+        <section id="page-script" class="store-page">
+            <h2>📜 SCRIPT</h2>
             <div class="form-card" style="text-align: center;">
-                <p>If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
+                <p>Explore our custom scripts here. If you encounter any issues, please contact our Discord.</p>
             </div>
         </section>
 
