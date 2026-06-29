@@ -1,293 +1,226 @@
-// ===== SHARED STORAGE KEY =====
-const STORAGE_KEY = 'store_products';
+const API_BASE_URL = "https://backend-11zq.onrender.com"; 
 
-// ===== GET PRODUCTS FROM LOCAL STORAGE =====
-function getProducts() {
-    try {
-        const data = localStorage.getItem(STORAGE_KEY);
-        if (data) {
-            const parsed = JSON.parse(data);
-            if (parsed && parsed.length > 0) {
-                return parsed;
-            }
-        }
-        // Initialize with default products if none exist
-        const defaults = [
-            { id: 1, title: 'Economy Plugin', price: 19.99, discount: 10, category: 'plugins', image: '', stock: 12 },
-            { id: 2, title: 'RPG Plugin', price: 29.99, discount: 0, category: 'plugins', image: '', stock: 8 },
-            { id: 3, title: 'Auto Sell Script', price: 14.99, discount: 20, category: 'scripts', image: '', stock: 15 },
-            { id: 4, title: 'Rank System', price: 24.99, discount: 15, category: 'projects', image: '', stock: 6 }
-        ];
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
-        return defaults;
-    } catch (e) {
-        console.error('Error reading products:', e);
-        return [];
-    }
-}
+// 🛑 កន្លែងកំណត់ TELEGRAM BOT (Task 3)
+const TELEGRAM_BOT_TOKEN = "8998859713:AAFOvcttVnqZip52L3dhtPFvWFaTrgQ4TGY";
+// ⚠️ អ្នកត្រូវដាក់លេខ ID របស់ Group ត្រង់នេះ! (ឧទាហរណ៍: -100123456789)
+// របៀបរក: ទាញ @RawDataBot ចូល Group រួចយកលេខ ID ដែលវាលោតប្រាប់ មកដាក់ត្រង់នេះ។
+const TELEGRAM_CHAT_ID = "--1004495647556"; 
 
-const API_BASE_URL = "https://backend-11zq.onrender.com";
-
-let currentProduct = null;
+let currentOrder = { category: '', value: '', price: 0, ign: '', email: '', platform: '' };
 let countdownInterval = null;
 let statusPollInterval = null;
 
-// ===== CATEGORIES =====
-const categories = [
-    { id: 'plugins', name: 'Plugins', icon: '🔌' },
-    { id: 'scripts', name: 'Scripts', icon: '📜' },
-    { id: 'projects', name: 'Projects', icon: '🚀' }
-];
-
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-    renderCategories();
-});
-
-// ===== RENDER CATEGORIES =====
-function renderCategories() {
-    const grid = document.getElementById('categoryGrid');
-    if (!grid) return;
-    
-    const products = getProducts();
-    
-    grid.innerHTML = categories.map(cat => {
-        const count = products.filter(p => p.category === cat.id).length;
-        return `
-            <div class="category-card" onclick="openCategory('${cat.id}')">
-                <div class="cat-icon">${cat.icon}</div>
-                <div class="cat-name">${cat.name}</div>
-                <div class="cat-count">${count} ${count === 1 ? 'product' : 'products'}</div>
-                ${count > 0 ? `<div class="cat-badge">${count}</div>` : ''}
-            </div>
-        `;
-    }).join('');
+// 🔄 មុខងារគ្រប់គ្រងការប្តូរទំព័រ 
+function showPage(pageId) {
+    document.querySelectorAll('.store-page').forEach(page => page.classList.remove('active'));
+    document.getElementById(`page-${pageId}`).classList.add('active');
+    if(pageId === 'rank') backToSelectStep();
 }
 
-// ===== OPEN CATEGORY =====
-function openCategory(categoryId) {
-    const category = categories.find(c => c.id === categoryId);
-    if (!category) return;
-    
-    document.getElementById('shop-category-name').textContent = `${category.icon} ${category.name}`;
-    
-    const products = getProducts().filter(p => p.category === categoryId);
-    const grid = document.getElementById('productGrid');
-    
-    if (products.length === 0) {
-        grid.innerHTML = `<p style="color:#a0aec0; text-align:center; padding:40px;">No products in this category yet.</p>`;
-    } else {
-        grid.innerHTML = products.map(p => `
-            <div class="product-card" onclick="openPurchaseModal(${p.id})">
-                ${p.image ? `<img src="${p.image}" class="product-img" alt="${p.title}">` : 
-                    `<div class="product-img" style="display:flex;align-items:center;justify-content:center;color:#4a5568;font-size:40px;background:#0f1318;border-radius:8px;">📦</div>`}
-                <div class="product-name">${p.title}</div>
-                <div class="product-price">
-                    $${p.price.toFixed(2)}
-                    ${p.discount > 0 ? `<span class="original">$${(p.price * (1 + p.discount/100)).toFixed(2)}</span>` : ''}
-                </div>
-                ${p.discount > 0 ? `<div class="product-discount">-${p.discount}%</div>` : ''}
-            </div>
-        `).join('');
-    }
-    
-    showPage('shop');
+// 🛒 មុខងារចុចជ្រើសរើសទំនិញ
+function selectItem(category, value, price) {
+    currentOrder.category = category;
+    currentOrder.value = value;
+    currentOrder.price = price;
+    document.querySelectorAll('.rank-card').forEach(card => card.classList.remove('selected'));
+    document.getElementById(`card-${value}`).classList.add('selected');
 }
 
-// ===== PURCHASE MODAL =====
-function openPurchaseModal(productId) {
-    const products = getProducts();
-    const product = products.find(p => p.id === productId);
-    if (!product) {
-        alert('Product not found!');
-        return;
-    }
-    
-    currentProduct = product;
-    document.getElementById('p-product-name').textContent = product.title;
-    document.getElementById('p-product-price').textContent = `$${product.price.toFixed(2)}`;
-    document.getElementById('p-product-discount').textContent = product.discount > 0 ? `-${product.discount}%` : 'None';
-    
-    document.getElementById('purchaseModal').style.display = 'flex';
+// ➡️ ទៅកាន់ទម្រង់បំពេញព័ត៌មាន 
+function goToFormStep() {
+    if (!currentOrder.value) return alert("❌ សូមមេត្តាជ្រើសរើសយក Rank ណាមួយជាមុនសិន!");
+    document.getElementById('rank-step-select').classList.remove('active');
+    document.getElementById('rank-step-form').classList.add('active');
 }
 
-function closePurchaseModal() {
-    document.getElementById('purchaseModal').style.display = 'none';
+function backToSelectStep() {
+    document.getElementById('rank-step-form').classList.remove('active');
+    document.getElementById('rank-step-checkout').classList.remove('active');
+    document.getElementById('rank-step-select').classList.add('active');
 }
 
-// ===== CONFIRM PURCHASE =====
-async function confirmPurchase() {
-    const ign = document.getElementById('p-ign').value.trim();
-    const email = document.getElementById('p-email').value.trim();
-    const platform = document.getElementById('p-platform').value;
-    
-    if (!ign || !email) {
-        alert('❌ Please fill in all required fields!');
-        return;
-    }
-    
-    if (!currentProduct) {
-        alert('❌ No product selected!');
-        return;
-    }
-    
-    closePurchaseModal();
-    
-    // Show payment modal
-    document.getElementById('qrcode-box').innerHTML = '<p style="font-size:13px;color:#666;">Generating QR...</p>';
-    document.getElementById('qr-timeout-overlay').style.display = 'none';
-    document.getElementById('paymentModal').style.display = 'flex';
-    
+// ➡️ ទៅកាន់ទំព័រ Checkout
+function goToCheckoutStep() {
+    const ign = document.getElementById('input-ign').value.trim();
+    const email = document.getElementById('input-email').value.trim();
+    const platform = document.getElementById('input-platform').value;
+
+    if (!ign || !email) return alert("❌ សូមបំពេញព័ត៌មានចាំបាច់ IGN និង Email ឱ្យបានគ្រប់ជ្រុងជ្រោយ!");
+
+    currentOrder.ign = ign;
+    currentOrder.email = email;
+    currentOrder.platform = platform;
+
+    document.getElementById('chk-category').innerText = currentOrder.category.toUpperCase();
+    document.getElementById('chk-item').innerText = currentOrder.value.toUpperCase();
+    document.getElementById('chk-ign').innerText = currentOrder.ign;
+    document.getElementById('chk-email').innerText = currentOrder.email;
+    document.getElementById('chk-platform').innerText = currentOrder.platform;
+    document.getElementById('chk-usd').innerText = `$${currentOrder.price.toFixed(2)}`;
+
+    document.getElementById('rank-step-form').classList.remove('active');
+    document.getElementById('rank-step-checkout').classList.add('active');
+}
+
+function backToFormStep() {
+    document.getElementById('rank-step-checkout').classList.remove('active');
+    document.getElementById('rank-step-form').classList.add('active');
+}
+
+// ✅ យល់ព្រមបង់ប្រាក់ និងហៅទៅ API
+async function confirmAndPay() {
+    // បង្ហាញ Loading Spinner ពេញអេក្រង់សិន (Task 5)
+    document.getElementById("global-loader").style.display = "flex";
+
     const payload = {
-        player_name: ign,
-        platform: platform,
-        category: currentProduct.category,
-        value: currentProduct.title,
-        price: currentProduct.price
+        player_name: currentOrder.ign,
+        platform: currentOrder.platform,
+        category: currentOrder.category.toLowerCase(), 
+        value: currentOrder.value
     };
-    
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/create-order`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
         const result = await response.json();
-        
-        if (result.status === 'success') {
-            document.getElementById('qrcode-box').innerHTML = '';
-            new QRCode(document.getElementById('qrcode-box'), {
-                text: result.khqr_string,
-                width: 190,
-                height: 190
-            });
+
+        // លាក់ផ្ទាំង Loading វិញពេល API ឆ្លើយតប
+        document.getElementById("global-loader").style.display = "none";
+
+        if (result.status === "success") {
             
-            startCountdownTimer(420);
+            // បញ្ចូលតម្លៃលុយទៅក្នុងផ្ទាំង KHQR ថ្មី
+            document.getElementById("display-khqr-price").innerText = `$${currentOrder.price.toFixed(2)}`;
+
+            // បង្កើតរូប QR Code
+            const qrBox = document.getElementById("qrcode-box");
+            qrBox.innerHTML = "";
+            new QRCode(qrBox, {
+                text: result.khqr_string,
+                width: 250, // ធ្វើឱ្យធំច្បាស់សម្រាប់រចនាបថថ្មី
+                height: 250,
+                colorDark : "#000000",
+                colorLight : "#ffffff"
+            });
+
+            // លាក់ Overlay កូដខូច រួចបង្ហាញផ្ទាំង KHQR ផ្លូវការ
+            document.getElementById("qr-timeout-overlay").style.display = "none";
+            document.getElementById("paymentModal").style.display = "flex";
+
+            startCountdownTimer(420); // 7 នាទី
             startPaymentPolling(result.transaction_id);
+
         } else {
-            alert('⚠️ Error: ' + result.message);
-            closePaymentModal();
+            alert("⚠️ ដំណើរការខុសប្រក្រតី: " + result.message);
         }
     } catch (error) {
-        console.error('Purchase error:', error);
-        alert('❌ Cannot connect to server!');
-        closePaymentModal();
+        document.getElementById("global-loader").style.display = "none";
+        alert("❌ មិនអាចតភ្ជាប់ទៅកាន់ API Server បានទេ!");
     }
 }
 
-// ===== TIMER =====
+// ⏰ យន្តការរាប់ថយក្រោយ ៧ នាទី
 function startCountdownTimer(durationInSeconds) {
     if (countdownInterval) clearInterval(countdownInterval);
     
     let timer = durationInSeconds;
     const timerDisplay = document.getElementById('countdown-timer');
-    
+
     countdownInterval = setInterval(() => {
         let minutes = parseInt(timer / 60, 10);
         let seconds = parseInt(timer % 60, 10);
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
         timerDisplay.innerText = `${minutes}:${seconds}`;
-        
+
         if (--timer < 0) {
             clearInterval(countdownInterval);
-            clearInterval(statusPollInterval);
-            document.getElementById('qr-timeout-overlay').style.display = 'flex';
-            document.getElementById('payment-spinner').innerHTML = '<p style="color:red;font-weight:bold;">❌ QR Code expired!</p>';
-            setTimeout(closePaymentModal, 3000);
+            clearInterval(statusPollInterval); 
+            
+            document.getElementById("qr-timeout-overlay").style.display = "flex";
+            document.getElementById("qr-timeout-overlay").innerHTML = "<p style='color:red;font-weight:bold;text-align:center;'>❌ លែងមានសុពលភាព!</p>";
+            
+            setTimeout(closeModal, 4000);
         }
     }, 1000);
 }
 
-// ===== POLLING =====
+// 🔍 យន្តការឆែកមើលការបាញ់លុយ (Polling Status)
 function startPaymentPolling(transactionId) {
     if (statusPollInterval) clearInterval(statusPollInterval);
-    
+
     statusPollInterval = setInterval(async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/api/check-status/${transactionId}`);
             const result = await response.json();
-            
-            if (result.status === 'success' && result.order_status === 'paid') {
+
+            if (result.status === "success" && result.order_status === "paid") {
                 clearInterval(countdownInterval);
                 clearInterval(statusPollInterval);
-                closePaymentModal();
+                
+                document.getElementById("paymentModal").style.display = "none";
                 triggerSuccessAlert();
+                
+                // ផ្ញើសារទៅកាន់ Telegram
+                sendTelegramAlert();
             }
         } catch (error) {
-            console.error('Polling error:', error);
+            console.error("Polling error:", error);
         }
     }, 4000);
 }
 
-// ===== SUCCESS ALERT =====
+// 📩 មុខងារផ្ញើសារទៅកាន់ Telegram Group
+async function sendTelegramAlert() {
+    if (TELEGRAM_CHAT_ID === "-100XXXXXXXXXX") return; // បើមិនទាន់ប្ដូរ ID ទេ មិនបាច់ផ្ញើ
+
+    const message = `✅ *មានការទូទាត់ប្រាក់ថ្មីជោគជ័យ!*\n\n`
+                  + `👤 *ឈ្មោះអ្នកលេង:* ${currentOrder.ign}\n`
+                  + `🛍️ *ទំនិញ:* ${currentOrder.category.toUpperCase()} - ${currentOrder.value}\n`
+                  + `💰 *តម្លៃ:* $${currentOrder.price.toFixed(2)}\n`
+                  + `🎮 *Platform:* ${currentOrder.platform}\n\n`
+                  + `⚙️ ប្រព័ន្ធនឹងបញ្ចូលអីវ៉ាន់ទៅក្នុងហ្គេមដោយស្វ័យប្រវត្តិ។`;
+
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    
+    try {
+        await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: 'Markdown'
+            })
+        });
+    } catch (e) {
+        console.error("បញ្ហាក្នុងការផ្ញើសារទៅ Telegram:", e);
+    }
+}
+
+// 🎉 បើក Custom Success Alert
 function triggerSuccessAlert() {
-    const alertModal = document.getElementById('successAlert');
-    alertModal.style.display = 'flex';
-    setTimeout(() => alertModal.classList.add('active'), 50);
+    const alertModal = document.getElementById("successAlert");
+    alertModal.style.display = "flex";
+    setTimeout(() => { alertModal.classList.add("active"); }, 50);
 }
 
 function closeSuccessAlert() {
-    const alertModal = document.getElementById('successAlert');
-    alertModal.classList.remove('active');
-    setTimeout(() => {
-        alertModal.style.display = 'none';
-        showPage('home');
+    const alertModal = document.getElementById("successAlert");
+    alertModal.classList.remove("active");
+    setTimeout(() => { 
+        alertModal.style.display = "none"; 
+        showPage('home'); 
     }, 300);
 }
 
-// ===== MODAL CONTROLS =====
-function closePaymentModal() {
-    document.getElementById('paymentModal').style.display = 'none';
+function closeModal() {
+    document.getElementById("paymentModal").style.display = "none";
     if (countdownInterval) clearInterval(countdownInterval);
     if (statusPollInterval) clearInterval(statusPollInterval);
-}
-
-// ===== PAGE NAVIGATION =====
-function showPage(pageId) {
-    document.querySelectorAll('.store-page').forEach(page => page.classList.remove('active'));
-    const target = document.getElementById(`page-${pageId}`);
-    if (target) target.classList.add('active');
-    
-    // Refresh categories when going home
-    if (pageId === 'home') {
-        renderCategories();
-    }
-}
-
-// ===== ADMIN ACCESS =====
-function goToAdmin() {
-    window.location.href = '../admin/index.html';
-}
-
-// ===== KEYBOARD SHORTCUT: Ctrl+Shift+A =====
-document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-        e.preventDefault();
-        goToAdmin();
-    }
-});
-
-// ===== LISTEN FOR STORAGE CHANGES (cross-tab sync) =====
-window.addEventListener('storage', (e) => {
-    if (e.key === STORAGE_KEY) {
-        // Products were updated in another tab
-        const currentPage = document.querySelector('.store-page.active');
-        if (currentPage) {
-            const pageId = currentPage.id.replace('page-', '');
-            if (pageId === 'home') {
-                renderCategories();
-            } else if (pageId === 'shop') {
-                // Re-render current category if we're on shop page
-                const categoryName = document.getElementById('shop-category-name').textContent;
-                if (categoryName) {
-                    categories.forEach(cat => {
-                        if (categoryName.includes(cat.name)) {
-                            openCategory(cat.id);
-                        }
-                    });
-                }
-            }
         }
-    }
-});
