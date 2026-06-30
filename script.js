@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://us.apsara.lol:55071"; 
+const API_BASE_URL = "http://us.apsara.lol:55071"; 
 
 // 🛑 កន្លែងកំណត់ TELEGRAM BOT (Task 3)
 const TELEGRAM_BOT_TOKEN = "8998859713:AAFOvcttVnqZip52L3dhtPFvWFaTrgQ4TGY";
