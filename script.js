@@ -1,5 +1,5 @@
 // 🛑 ប្តូរមកប្រើ URL របស់ Apsara Hosting វិញ (ប្រើត្រឹម http បានហើយ)
-const API_BASE_URL = "http://us.apsara.lol:55071"; 
+const API_BASE_URL = "https://api.forestsmp.site"; 
 
 // 🛑 កន្លែងកំណត់ TELEGRAM BOT (Task 3)
 const TELEGRAM_BOT_TOKEN = "8998859713:AAFOvcttVnqZip52L3dhtPFvWFaTrgQ4TGY";
