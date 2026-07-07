@@ -1,182 +1,280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOREST-SMP</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOREST-SMP Store</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-logo" onclick="showPage('home')">FOREST<br>SMP</div>
-        <ul class="nav-links">
-            <li><a href="#" onclick="showPage('home')">HOME</a></li>
-            <li><a href="#" onclick="showPage('rank')">RANK</a></li>
-            <li><a href="#" onclick="showPage('life')">LIFE</a></li>
-            <li><a href="#" onclick="showPage('support')">SUPPORT</a></li>
-        </ul>
-    </nav>
+<!-- 🌐 Navigation Bar (with Hamburger) -->
+<nav class="navbar">
+    <div class="nav-logo" onclick="showPage('home')">🌲 FOREST-SMP</div>
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" onclick="showPage('home'); closeMenu();">Home</a></li>
+        <li><a href="#" onclick="showPage('rank'); closeMenu();">Rank</a></li>
+        <li><a href="#" onclick="showPage('life'); closeMenu();">Life</a></li>
+        <li><a href="#" onclick="showPage('support'); closeMenu();">Support</a></li>
+    </ul>
+</nav>
 
-    <div class="container">
-        
-        <section id="page-home" class="store-page active">
-            <div class="welcome-text">
-                <h1>WELCOME TO FOREST-SMP</h1>
-                <p>CHOOSE A CATEGORY BELOW TO CONTINUE</p>
+<div class="container">
+
+    <!-- 🏠 HOME PAGE -->
+    <div class="store-page active" id="page-home">
+        <div class="welcome-text">
+            <h1>Welcome to FOREST-SMP</h1>
+            <p>Please select the type of service you would like to view or purchase below</p>
+        </div>
+        <div class="home-boxes">
+            <div class="home-box box-views" onclick="showPage('rank')">
+                <div class="box-icon">💎</div>
+                <h3>Rank Shop</h3>
+                <p>Upgrade your rank for exclusive perks</p>
             </div>
-            
-            <div class="home-boxes">
-                <div class="home-box box-rank" onclick="showPage('rank')">
-                    <h3>RANK</h3>
-                    <p class="card-subtitle">CLICK TO BUY</p>
-                </div>
-                <div class="home-box box-views" onclick="showPage('support')">
-                    <h3>SUPPORT</h3>
-                    <p class="card-subtitle">CLICK TO BUY</p>
-                </div>
-                <div class="home-box box-life" onclick="showPage('life')">
-                    <h3>LIFE</h3>
-                    <p class="card-subtitle">CLICK TO BUY</p>
-                </div>
+            <div class="home-box box-rank" onclick="showPage('rank')">
+                <div class="box-icon">🏆</div>
+                <h3>Special Items</h3>
+                <p>Purchase special items and kits</p>
             </div>
-        </section>
-
-        <section id="page-rank" class="store-page">
-            
-            <div id="rank-step-select" class="shop-step active">
-                <h2>STEP 1: SELECT RANK STATUS</h2>
-                <div class="grid-container">
-                    <div class="rank-card" id="card-Acacia" onclick="selectItem('rank', 'Acacia', 0.01)">
-                        <div class="badge rank-acacia">ACACIA</div>
-                        <div class="price">$0.01</div>
-                    </div>
-                    <div class="rank-card" id="card-Azalea" onclick="selectItem('rank', 'Azalea', 0.02)">
-                        <div class="badge rank-azalea">AZALEA</div>
-                        <div class="price">$0.02</div>
-                    </div>
-                    <div class="rank-card" id="card-Jungle" onclick="selectItem('rank', 'Jungle', 0.03)">
-                        <div class="badge rank-jungle">JUNGLE</div>
-                        <div class="price">$0.03</div>
-                    </div>
-                </div>
-                <button class="btn-next" onclick="goToFormStep()">NEXT &rarr;</button>
+            <div class="home-box box-life" onclick="showPage('life')">
+                <div class="box-icon">❤️</div>
+                <h3>Life Boost</h3>
+                <p>Get extra lives and boosts</p>
             </div>
-
-            <div id="rank-step-form" class="shop-step">
-                <h2>STEP 2: FILL OUT CUSTOMER INFORMATION</h2>
-                <div class="form-card">
-                    <div class="form-group">
-                        <label>NAME (IGN):</label>
-                        <input type="text" id="input-ign" placeholder="Minecraft Username">
-                    </div>
-                    <div class="form-group">
-                        <label>EMAIL:</label>
-                        <input type="email" id="input-email" placeholder="name@gmail.com">
-                    </div>
-                    <div class="form-group">
-                        <label>PLATFORM:</label>
-                        <select id="input-platform">
-                            <option value="Java">JAVA EDITION</option>
-                            <option value="Bedrock">BEDROCK EDITION</option>
-                        </select>
-                    </div>
-                    <div class="form-buttons">
-                        <button class="btn-secondary" onclick="backToSelectStep()">BACK</button>
-                        <button class="btn-next" onclick="goToCheckoutStep()">NEXT</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="rank-step-checkout" class="shop-step">
-                <h2>🛒 STEP 3: REVIEW PAYMENT DETAILS</h2>
-                <div class="checkout-card">
-                    <div class="checkout-details">
-                        <p><strong>SERVICE TYPE:</strong> <span id="chk-category">-</span></p>
-                        <p><strong>SELECTED ITEM:</strong> <span id="chk-item" class="text-highlight">-</span></p>
-                        <p><strong>PLAYER NAME:</strong> <span id="chk-ign">-</span></p>
-                        <p><strong>EMAIL:</strong> <span id="chk-email">-</span></p>
-                        <p><strong>PLATFORM:</strong> <span id="chk-platform">-</span></p>
-                        <p><strong>TOTAL PRICE:</strong> <span id="chk-usd" style="color:#d32f2f; font-weight:bold;">$0.00</span></p>
-                    </div>
-                    <div class="form-buttons" style="margin-top: 25px;">
-                        <button class="btn-danger" onclick="backToFormStep()">CANCEL</button>
-                        <button class="btn-success" onclick="confirmAndPay()">CONFIRM & PAY</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-life" class="store-page">
-            <h2>LIFE</h2>
-            <div class="form-card" style="text-align: center;">
-                <p>This page is preparing the same as the Rank page.</p>
-            </div>
-        </section>
-
-        <section id="page-support" class="store-page">
-            <h2>📞 SUPPORT</h2>
-            <div class="form-card" style="text-align: center;">
-                <p>If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
-            </div>
-        </section>
-
-    </div>
-
-    <div id="global-loader" class="modal">
-        <div class="loading-status">
-            <div class="spinner" style="width: 50px; height: 50px; border-width: 5px; border-top-color: #ffd66b;"></div>
-            <p style="color: white; margin-top: 15px; font-size: 18px; font-weight: bold;">Generating KHQR...</p>
         </div>
     </div>
 
-    <div id="paymentModal" class="modal">
-        <div class="khqr-card-container">
-            <div class="khqr-real-card">
-                <div class="khqr-header">
-                    <h2>KHQR</h2>
-                    <div class="corner-fold"></div>
+    <!-- 💎 RANK PAGE (with Stepper) -->
+    <div class="store-page" id="page-rank">
+        <!-- 📊 Progress Stepper -->
+        <div class="stepper">
+            <div class="step active" id="step-1">
+                <span>1</span>
+                <div class="step-text">Select Rank</div>
+            </div>
+            <div class="step-line" id="line-1"></div>
+            <div class="step" id="step-2">
+                <span>2</span>
+                <div class="step-text">Information</div>
+            </div>
+            <div class="step-line" id="line-2"></div>
+            <div class="step" id="step-3">
+                <span>3</span>
+                <div class="step-text">Checkout</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Select Rank -->
+        <div class="shop-step active" id="rank-step-select">
+            <h2>Step 1: Select Rank status</h2>
+            <div class="grid-container">
+                <div class="rank-card" id="card-acacia" onclick="selectItem('rank', 'acacia', 0.01)">
+                    <div class="badge rank-acacia">ACACIA</div>
+                    <div class="price">$0.01 <span class="khr">≈ 40 ៛</span></div>
+                    <div class="desc">Basic rank with custom prefix and color.</div>
                 </div>
-                <div class="khqr-body">
-                    <p class="khqr-name">FOREST-SMP</p>
-                    <p class="khqr-price" id="display-khqr-price">$0</p>
-                    <hr class="khqr-dashed">
-                    
-                    <div class="qr-container">
-                        <div id="qrcode-box"></div>
-                        <div id="qr-timeout-overlay" class="timeout-overlay"></div>
-                    </div>
+                <div class="rank-card" id="card-azalea" onclick="selectItem('rank', 'azalea', 0.02)">
+                    <span class="card-badge">⭐ POPULAR</span>
+                    <div class="badge rank-azalea">AZALEA</div>
+                    <div class="price">$0.02 <span class="khr">≈ 80 ៛</span></div>
+                    <div class="desc">Fly mode, /home, and exclusive kits.</div>
+                </div>
+                <div class="rank-card" id="card-jungle" onclick="selectItem('rank', 'jungle', 0.03)">
+                    <span class="card-badge">🔥 BEST VALUE</span>
+                    <div class="badge rank-jungle">JUNGLE</div>
+                    <div class="price">$0.03 <span class="khr">≈ 120 ៛</span></div>
+                    <div class="desc">All perks + private warp & priority support.</div>
                 </div>
             </div>
-            
-            <div class="timer-box">
-                VALID FOR: <span id="countdown-timer">07:00</span>
+            <button class="btn-next" onclick="goToFormStep()">NEXT ➡️</button>
+        </div>
+
+        <!-- Step 2: Form -->
+        <div class="shop-step" id="rank-step-form">
+            <div class="form-card">
+                <h2>Step 2: Fill out customer information</h2>
+                <div class="form-group">
+                    <label>Name (IGN):</label>
+                    <input type="text" id="input-ign" placeholder="Enter your in-game name">
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="input-email" placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Platform:</label>
+                    <select id="input-platform">
+                        <option value="java">Java Edition</option>
+                        <option value="bedrock">Bedrock Edition</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Promo Code:</label>
+                    <input type="text" id="input-promo" placeholder="Enter promo code (optional)">
+                </div>
+                <div class="form-buttons">
+                    <button class="btn-secondary" onclick="backToSelectStep()">⬅️ BACK</button>
+                    <button class="btn-next" onclick="goToCheckoutStep()">NEXT ➡️</button>
+                </div>
             </div>
-            <div class="loading-status" style="margin-top: 15px;">
-                <div class="spinner"></div>
-                <p style="color: white;">Waiting for bank transfer...</p>
+        </div>
+
+        <!-- Step 3: Checkout -->
+        <div class="shop-step" id="rank-step-checkout">
+            <div class="checkout-card">
+                <h2>🛒 Step 3: Review Payment Details</h2>
+                <div class="checkout-details">
+                    <p>Service Type: <span class="text-highlight" id="chk-category">-</span></p>
+                    <p>Selected Item: <span class="text-highlight" id="chk-item">-</span></p>
+                    <p>Player Name: <span id="chk-ign">-</span></p>
+                    <p>Email: <span id="chk-email">-</span></p>
+                    <p>Platform: <span id="chk-platform">-</span></p>
+                    <p>Total Price: <span class="text-highlight" id="chk-usd">$0.00</span></p>
+                </div>
+                <div class="form-buttons">
+                    <button class="btn-danger" onclick="backToFormStep()">❌ Cancel</button>
+                    <button class="btn-success" onclick="confirmAndPay()">✅ Confirm</button>
+                </div>
             </div>
-            
-            <button class="btn-danger" style="margin-top:15px; width:100%; border:none; box-shadow:none;" onclick="closeModal()">CANCEL PAYMENT</button>
         </div>
     </div>
 
-    <div id="successAlert" class="alert-modal">
-        <div class="alert-content">
-            <div class="success-icon-box">
-                <div class="checkmark-circle">
-                    <div class="checkmark draw"></div>
-                </div>
-            </div>
-            <h2 style="color: black;">PAYMENT SUCCESSFUL!</h2>
-            <p style="color: black; font-weight: bold;">Your payment has been processed. The system will deliver the item in-game shortly!</p>
-            <button class="btn-success" style="width: 100%; margin-top: 15px;" onclick="closeSuccessAlert()">CLOSE</button>
-        </div>
+    <!-- ❤️ LIFE PAGE -->
+    <div class="store-page" id="page-life">
+        <h2>❤️ Life</h2>
+        <p>This page is preparing the same as the Rank page.</p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="script.js"></script>
+    <!-- 📞 SUPPORT PAGE (with FAQ) -->
+    <div class="store-page" id="page-support">
+        <h2>📞 Support</h2>
+        <p>If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
+
+        <div class="faq-section">
+            <h3>❓ Frequently Asked Questions</h3>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    How long does delivery take? <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Items are delivered within <strong>1-5 minutes</strong> after payment confirmation. Please make sure you are online in-game.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What payment methods are accepted? <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We accept <strong>ABA, ACLEDA, KHQR</strong> and all Cambodian banking apps via KHQR payment system.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    What if I don't receive my rank? <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Please contact us on <strong>Discord</strong> or <strong>Telegram</strong> with your transaction ID. Our support team will resolve the issue within 24 hours.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Can I get a refund? <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    Refunds are handled on a case-by-case basis. Please contact our support team for more information.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    Do ranks expire? <span class="faq-icon">▼</span>
+                </div>
+                <div class="faq-answer">
+                    No! All ranks are <strong>permanent</strong> and will stay on your account forever.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 💵 KHQR Payment Modal -->
+<div class="modal" id="paymentModal">
+    <div class="modal-content">
+        <h2 class="khqr-title">KHQR PAYMENT</h2>
+        <p class="khqr-subtitle">scan any banking in cambodia.</p>
+        <div class="qr-container">
+            <div id="qrcode-box"></div>
+            <div class="timeout-overlay" id="qr-timeout-overlay">❌ Excessive QR code</div>
+        </div>
+        <p class="khqr-msg">Pay to buy rank now, faster.</p>
+        <div class="timer-box">
+            ⏰ This QR code is valid: <span id="countdown-timer">07:00</span>
+        </div>
+        <div class="loading-status" id="payment-spinner">
+            <div class="spinner"></div>
+            <span>Waiting for bank transfer...</span>
+        </div>
+    </div>
+</div>
+
+<!-- 🎉 Success Alert -->
+<div class="alert-modal" id="successAlert">
+    <div class="alert-content">
+        <div class="success-icon-box">
+            <span class="checkmark-circle"><span class="checkmark draw"></span></span>
+        </div>
+        <h2>Payment Successfully!</h2>
+        <p>Your payment has been processed successfully. The system will deliver the item in-game shortly!</p>
+        <button class="btn-alert-close" onclick="closeSuccessAlert()">Close</button>
+    </div>
+</div>
+
+<!-- 🍞 Toast Container -->
+<div id="toast-container"></div>
+
+<!-- 🦶 Footer -->
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-col">
+            <h4>FOREST-SMP</h4>
+            <p>The best Minecraft survival experience</p>
+            <div class="social-links">
+                <a href="#" title="Telegram"></a>
+                <a href="#" title="YouTube"></a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('rank')">Rank Shop</a>
+            <a href="#" onclick="showPage('support')">Support</a>
+        </div>
+        <div class="footer-col">
+            <h4>Payment Support</h4>
+            <p>ABA</p>
+            <p>ACLEDA</p>
+            <p>KHQR</p>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <p>Email: forestkh.net@gmail.com</p>
+            <p>Telegram: @P0KEM0N_MC</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2026 FOREST-SMP. All rights reserved
+    </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
-    </html>
-                        
+                    </html>
