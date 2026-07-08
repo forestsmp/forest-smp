@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://www.forestsmpp.site/sitemap.xml
