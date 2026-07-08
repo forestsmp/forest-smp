@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOREST-SMP | Life Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kantumruy+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!--  Navigation -->
+    <nav class="navbar">
+        <div class="nav-logo" onclick="window.location.href='../index.html'">
+            <i class="fas fa-tree"></i> FOREST-SMP
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="../index.html#rank"><i class="fas fa-crown"></i> Rank</a></li>
+            <li><a href="../special/index.html"><i class="fas fa-gem"></i> Special Items</a></li>
+            <li><a href="#" class="active-link"><i class="fas fa-heart-pulse"></i> Life Boost</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!--  Header -->
+        <div class="page-header">
+            <div class="heart-icon-large">
+                <i class="fas fa-heart-pulse"></i>
+            </div>
+            <h1>Life Boost Shop</h1>
+            <p>Purchase extra lives to survive longer in the Hardcore world!</p>
+        </div>
+
+        <!-- 🎮 Calculator Section -->
+        <div class="calculator-card">
+            <div class="calc-header">
+                <i class="fas fa-calculator"></i> Configure Your Lives
+            </div>
+            
+            <div class="slider-container">
+                <div class="slider-labels">
+                    <span>Min: 1</span>
+                    <span id="current-life-display" class="life-count">10</span>
+                    <span>Max: 100</span>
+                </div>
+                <input type="range" min="1" max="100" value="10" class="life-slider" id="lifeSlider" oninput="updatePrice()">
+                <div class="slider-ticks">
+                    <span>1</span><span>25</span><span>50</span><span>75</span><span>100</span>
+                </div>
+            </div>
+
+            <div class="price-preview">
+                <div class="preview-box">
+                    <span class="label">Quantity</span>
+                    <span class="value" id="qty-display">10 Lives</span>
+                </div>
+                <div class="preview-box highlight">
+                    <span class="label">Total Price</span>
+                    <span class="value price-text" id="price-display">$5.00</span>
+                </div>
+                <div class="preview-box">
+                    <span class="label">KHR Estimate</span>
+                    <span class="value khr-text" id="khr-display">≈ 20,500 ៛</span>
+                </div>
+            </div>
+
+            <button class="btn-buy-large" onclick="openBuyForm()">
+                <i class="fas fa-shopping-cart"></i> BUY LIVES NOW
+            </button>
+        </div>
+
+        <!-- ℹ️ Info Cards -->
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fas fa-shield-heart"></i>
+                <h3>Permanent</h3>
+                <p>Lives never expire. They stay on your account forever.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Instant Delivery</h3>
+                <p>Lives are added to your account immediately after payment.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-users"></i>
+                <h3>Shareable?</h3>
+                <p>No, lives are bound to your specific Minecraft IGN.</p>
+            </div>
+        </div>
+
+        <div class="back-home">
+            <a href="../index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <!-- 📝 Buy Form Modal -->
+    <div class="modal" id="buyFormModal">
+        <div class="modal-content form-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-bag"></i> Confirm Purchase</h2>
+                <button class="btn-close" onclick="closeBuyForm()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="selected-item-info" id="selectedItemInfo"></div>
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Minecraft Username (IGN):</label>
+                <input type="text" id="input-ign" placeholder="Enter your in-game name" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email:</label>
+                <input type="email" id="input-email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-gamepad"></i> Platform:</label>
+                <select id="input-platform">
+                    <option value="java">Java Edition</option>
+                    <option value="bedrock">Bedrock Edition</option>
+                </select>
+            </div>
+            <button class="btn-proceed" onclick="proceedToPayment()">
+                <i class="fas fa-lock"></i> PROCEED TO PAYMENT
+            </button>
+        </div>
+    </div>
+
+    <!-- 💵 KHQR Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content khqr-new-design">
+            <div class="khqr-red-header">
+                <span class="khqr-logo-text">KHQR</span>
+                <button class="btn-close-khqr" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="khqr-body">
+                <div class="khqr-merchant-name">FOREST-SMP</div>
+                <div class="khqr-amount-display">
+                    <span class="khqr-amount-value" id="khqr-amount">0,00</span>
+                    <span class="khqr-amount-currency">USD</span>
+                </div>
+                <div class="khqr-divider"></div>
+                <div class="khqr-qr-wrapper">
+                    <div class="khqr-qrcode" id="qrcode-box"></div>
+                    <div class="khqr-dollar-logo"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="khqr-timeout-overlay" id="qr-timeout-overlay">
+                        <span><i class="fas fa-exclamation-circle"></i> QR Code បានផុតកំណត់!</span>
+                    </div>
+                </div>
+                <div class="khqr-timer-section">
+                    <span class="khqr-timer-label">QR Code មានសុពលភាព</span>
+                    <span class="khqr-timer-value" id="countdown-timer">03:00</span>
+                </div>
+                <div class="khqr-loading-status" id="payment-spinner">
+                    <div class="khqr-spinner"></div>
+                    <span>កំពុងរង់ចាំការផ្េរប្រាក់...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  Success Alert -->
+    <div class="alert-modal" id="successAlert">
+        <div class="alert-content">
+            <div class="success-icon-box">
+                <span class="checkmark-circle"><span class="checkmark draw"></span></span>
+            </div>
+            <h2><i class="fas fa-check-circle"></i> Payment Successful!</h2>
+            <p>Your lives have been added to your account successfully!</p>
+            <button class="btn-alert-close" onclick="closeSuccessAlert()"><i class="fas fa-thumbs-up"></i> Close</button>
+        </div>
+    </div>
+
+    <!-- 🍞 Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- 🦶 Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4><i class="fas fa-tree"></i> FOREST-SMP</h4>
+                <p>The best Minecraft survival experience</p>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-link"></i> Quick Links</h4>
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../index.html#rank"><i class="fas fa-crown"></i> Rank Shop</a>
+                <a href="#"><i class="fas fa-heart-pulse"></i> Life Boost</a>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-credit-card"></i> Payment Support</h4>
+                <a href="#"><i class="fas fa-university"></i> ABA</a>
+                <a href="#"><i class="fas fa-university"></i> ACLEDA</a>
+                <a href="#"><i class="fas fa-qrcode"></i> KHQR</a>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-envelope"></i> Contact</h4>
+                <p><i class="fas fa-envelope"></i> forestkh.net@gmail.com</p>
+                <p><i class="fab fa-telegram"></i> @P0KEM0N_MC</p>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 FOREST-SMP. All rights reserved</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
