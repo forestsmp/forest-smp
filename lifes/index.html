@@ -63,34 +63,11 @@
                     <span class="label">Total Price</span>
                     <span class="value price-text" id="price-display">$5.00</span>
                 </div>
-                <div class="preview-box">
-                    <span class="label">KHR Estimate</span>
-                    <span class="value khr-text" id="khr-display">≈ 20,500 ៛</span>
-                </div>
             </div>
 
             <button class="btn-buy-large" onclick="openBuyForm()">
-                <i class="fas fa-shopping-cart"></i> BUY LIVES NOW
+                <i class="fas fa-shopping-cart"></i> BUY
             </button>
-        </div>
-
-        <!-- ℹ️ Info Cards -->
-        <div class="info-grid">
-            <div class="info-card">
-                <i class="fas fa-shield-heart"></i>
-                <h3>Permanent</h3>
-                <p>Lives never expire. They stay on your account forever.</p>
-            </div>
-            <div class="info-card">
-                <i class="fas fa-bolt"></i>
-                <h3>Instant Delivery</h3>
-                <p>Lives are added to your account immediately after payment.</p>
-            </div>
-            <div class="info-card">
-                <i class="fas fa-users"></i>
-                <h3>Shareable?</h3>
-                <p>No, lives are bound to your specific Minecraft IGN.</p>
-            </div>
         </div>
 
         <div class="back-home">
@@ -122,7 +99,7 @@
                 </select>
             </div>
             <button class="btn-proceed" onclick="proceedToPayment()">
-                <i class="fas fa-lock"></i> PROCEED TO PAYMENT
+                <i class="fas fa-lock"></i> PROCEED
             </button>
         </div>
     </div>
@@ -144,16 +121,16 @@
                 <div class="khqr-qr-wrapper">
                     <div class="khqr-qrcode" id="qrcode-box"></div>
                     <div class="khqr-timeout-overlay" id="qr-timeout-overlay">
-                        <span><i class="fas fa-exclamation-circle"></i> QR Code បានផុតកំណត់!</span>
+                        <span><i class="fas fa-exclamation-circle"></i> ផុតកំណត់!</span>
                     </div>
                 </div>
                 <div class="khqr-timer-section">
-                    <span class="khqr-timer-label">QR Code មានសុពលភាព</span>
+                    <span class="khqr-timer-label"></span>
                     <span class="khqr-timer-value" id="countdown-timer">03:00</span>
                 </div>
                 <div class="khqr-loading-status" id="payment-spinner">
                     <div class="khqr-spinner"></div>
-                    <span>កំពុងរង់ចាំការផ្េរប្រាក់...</span>
+                    <span>Waiting for successful payment...</span>
                 </div>
             </div>
         </div>
