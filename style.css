@@ -417,33 +417,33 @@ h2 i { margin-right: 10px; }
     padding: 25px 20px 20px;
 }
 
-/* 🏷️ Merchant Name - Left Aligned */
+/* 🏷️ Merchant Name - Left Aligned (កែ្យធំជាង) */
 .khqr-merchant-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #555;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
+    font-size: 22px; /* កើនពី 14px មក 22px */
+    font-weight: 800;
+    color: #1a1a1a;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
     text-transform: uppercase;
     text-align: left;
 }
 
-/* 💰 Amount Display - Left Aligned */
+/* 💰 Amount Display - Left Aligned (កែឱ្យតូចជាង) */
 .khqr-amount-display {
     margin-bottom: 15px;
     text-align: left;
 }
 
 .khqr-amount-value {
-    font-size: 36px;
-    font-weight: 900;
-    color: #1a1a1a;
-    letter-spacing: -1px;
+    font-size: 18px; /* បន្ថយពី 36px មក 18px */
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 0;
 }
 
 .khqr-amount-currency {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     color: #888;
     margin-left: 4px;
     text-transform: uppercase;
