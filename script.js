@@ -83,7 +83,7 @@ function openBuyForm(category, value, price) {
     document.getElementById('buyFormModal').classList.add('active');
 }
 
-// ❌ Close Buy Form Modal
+//  Close Buy Form Modal
 function closeBuyForm() {
     document.getElementById('buyFormModal').classList.remove('active');
 }
@@ -95,7 +95,7 @@ function proceedToPayment() {
     const platform = document.getElementById('input-platform').value;
     
     if (!ign || !email) {
-        showToast("សូមបំពេញ IGN និង Email ឱ្យបានគ្រប់ជ្រុងជ្រោយ!", 'error');
+        showToast("សូមបំពេញ IGN និង Email ឱ្យបានគរប់ជ្រុងជ្រោយ!", 'error');
         return;
     }
     
@@ -150,7 +150,8 @@ async function confirmAndPay() {
                 height: 190
             });
             
-            startCountdownTimer(420);
+            // Start countdown with 3 minutes (180 seconds) instead of 7 minutes
+            startCountdownTimer(180);
             startPaymentPolling(result.transaction_id);
         } else {
             showToast("⚠️ ដំណើរការខុសប្រក្រតី: " + result.message, 'error');
@@ -182,8 +183,8 @@ function startCountdownTimer(durationInSeconds) {
             clearInterval(countdownInterval);
             clearInterval(statusPollInterval);
             document.getElementById("qr-timeout-overlay").style.display = "flex";
-            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'><i class='fas fa-times-circle'></i> កូដបង់ប្រាក់នេះត្រូវបានបដិសេធដោយប្រព័ន្ធ!</p>";
-            showToast("⏰ QR Code បានផុតកំណត់ហើយ!", 'error');
+            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'><i class='fas fa-times-circle'></i> កូដបង់ប្រាក់នេះត្រូវបានបដិសេធោយប្រព័នធ!</p>";
+            showToast(" QR Code បានផុតកំណត់ហើយ!", 'error');
             setTimeout(closeModal, 4000);
         }
     }, 1000);
@@ -220,7 +221,7 @@ async function sendTelegramNotification() {
     const message = `
 🎉 <b>PAYMENT SUCCESSFUL!</b>
 👤 <b>Player:</b> ${currentOrder.ign}
-📧 <b>Email:</b> ${currentOrder.email}
+ <b>Email:</b> ${currentOrder.email}
 🎮 <b>Platform:</b> ${currentOrder.platform.toUpperCase()}
 🏆 <b>Rank:</b> ${currentOrder.value.toUpperCase()}
 💰 <b>Price:</b> $${currentOrder.price.toFixed(2)}
