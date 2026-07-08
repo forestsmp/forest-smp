@@ -200,10 +200,10 @@
         </div>
     </div>
 
-    <!-- 💵 KHQR Payment Modal (New Design) -->
+    <!--  KHQR Payment Modal (Updated Design) -->
     <div id="paymentModal" class="modal">
         <div class="modal-content khqr-new-design">
-            <!-- Red Header Bar -->
+            <!-- Red Header Bar - KHQR Centered -->
             <div class="khqr-red-header">
                 <div class="khqr-logo-text">KHQR</div>
                 <button class="btn-close-khqr" onclick="closeModal()">✕</button>
@@ -211,10 +211,10 @@
 
             <!-- Body Content -->
             <div class="khqr-body">
-                <!-- Merchant / Code Name -->
-                <div class="khqr-merchant-name">AHNAJAK-CODE</div>
+                <!-- Merchant Name - Left Aligned (FOREST-SMP) -->
+                <div class="khqr-merchant-name" id="khqr-merchant">FOREST-SMP</div>
 
-                <!-- Amount Display -->
+                <!-- Amount Display - Left Aligned -->
                 <div class="khqr-amount-display">
                     <span class="khqr-amount-value" id="khqr-amount">0,01</span>
                     <span class="khqr-amount-currency">USD</span>
@@ -222,9 +222,13 @@
 
                 <div class="khqr-divider"></div>
 
-                <!-- QR Code Area -->
+                <!-- QR Code Area with $ Logo in Center -->
                 <div class="khqr-qr-wrapper">
                     <div id="qrcode-box" class="khqr-qrcode"></div>
+                    <!-- $ Logo Overlay in Center of QR -->
+                    <div class="khqr-dollar-logo">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
                     <!-- Timeout Overlay -->
                     <div id="qr-timeout-overlay" class="khqr-timeout-overlay">
                         <p><i class="fas fa-times-circle"></i> QR Code បានផុតកំណត់!</p>
@@ -234,7 +238,7 @@
                 <!-- Timer -->
                 <div class="khqr-timer-section">
                     <span class="khqr-timer-label">QR Code មានសុពលភាព</span>
-                    <span class="khqr-timer-value" id="countdown-timer">07:00</span>
+                    <span class="khqr-timer-value" id="countdown-timer">03:00</span>
                 </div>
 
                 <!-- Loading Status -->
@@ -287,7 +291,7 @@
             <div class="footer-col">
                 <h4>Contact</h4>
                 <p><i class="fas fa-envelope"></i> forestkh.net@gmail.com</p>
-                <p><i class="fab fa-discord"></i> @P0KEM0N_MC</p>
+                <p><i class="fab fa-telegram"></i> @P0KEM0N_MC</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-discord"></i></a>
                     <a href="#"><i class="fab fa-telegram"></i></a>
@@ -303,4 +307,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
-    </html>
+                        </html>
