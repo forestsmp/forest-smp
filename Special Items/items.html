@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Items - FOREST-SMP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="items.css">
+</head>
+<body>
+    <!-- 🌐 Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-logo" onclick="window.location.href='../index.html'">
+            <i class="fas fa-tree"></i> FOREST-SMP
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../index.html#home"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="../index.html#rank"><i class="fas fa-crown"></i> Rank</a></li>
+            <li><a href="items.html" class="active"><i class="fas fa-box-open"></i> Items</a></li>
+            <li><a href="../index.html#support"><i class="fas fa-headset"></i> Support</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <div class="container">
+        <!-- 📦 Special Items Page -->
+        <div class="items-page">
+            <h2><i class="fas fa-box-open"></i> Special Items Shop</h2>
+            <p class="page-desc">Purchase powerful items and kits to enhance your gameplay</p>
+            
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="tab-btn active" data-category="kits" onclick="showCategory('kits', this)">
+                    <i class="fas fa-cube"></i> Starter Kits
+                </button>
+                <button class="tab-btn" data-category="tools" onclick="showCategory('tools', this)">
+                    <i class="fas fa-hammer"></i> Tools & Weapons
+                </button>
+                <button class="tab-btn" data-category="blocks" onclick="showCategory('blocks', this)">
+                    <i class="fas fa-cubes"></i> Special Blocks
+                </button>
+                <button class="tab-btn" data-category="misc" onclick="showCategory('misc', this)">
+                    <i class="fas fa-star"></i> Miscellaneous
+                </button>
+            </div>
+
+            <!-- Items Grid -->
+            <div id="items-grid" class="items-grid">
+                <!-- Items will be loaded by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 🛒 Buy Form Modal -->
+    <div id="buyFormModal" class="modal">
+        <div class="modal-content form-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-cart"></i> Purchase Item</h2>
+                <button class="btn-close" onclick="closeBuyForm()">✕</button>
+            </div>
+            
+            <div id="selectedItemInfo" class="selected-item-info">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Minecraft Username (IGN):</label>
+                <input type="text" id="input-ign" placeholder="Enter your Minecraft username">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email:</label>
+                <input type="email" id="input-email" placeholder="Enter your email address">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-gamepad"></i> Platform:</label>
+                <select id="input-platform">
+                    <option value="java">Java Edition</option>
+                    <option value="bedrock">Bedrock Edition</option>
+                </select>
+            </div>
+
+            <button class="btn-proceed" onclick="proceedToPayment()">
+                <i class="fas fa-arrow-right"></i> PROCEED TO PAYMENT
+            </button>
+        </div>
+    </div>
+
+    <!-- 💵 KHQR Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content khqr-new-design">
+            <div class="khqr-red-header">
+                <div class="khqr-logo-text">KHQR</div>
+                <button class="btn-close-khqr" onclick="closeModal()">✕</button>
+            </div>
+            <div class="khqr-body">
+                <div class="khqr-merchant-name" id="khqr-merchant">FOREST-SMP</div>
+                <div class="khqr-amount-display">
+                    <span class="khqr-amount-value" id="khqr-amount">0,01</span>
+                    <span class="khqr-amount-currency">USD</span>
+                </div>
+                <div class="khqr-divider"></div>
+                <div class="khqr-qr-wrapper">
+                    <div id="qrcode-box" class="khqr-qrcode"></div>
+                    <div class="khqr-dollar-logo">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div id="qr-timeout-overlay" class="khqr-timeout-overlay">
+                        <p><i class="fas fa-times-circle"></i> QR Code បានផុតកំណត់!</p>
+                    </div>
+                </div>
+                <div class="khqr-timer-section">
+                    <span class="khqr-timer-label">QR Code មានសុពលភាព</span>
+                    <span class="khqr-timer-value" id="countdown-timer">03:00</span>
+                </div>
+                <div id="payment-spinner" class="khqr-loading-status">
+                    <div class="khqr-spinner"></div>
+                    <span>កំពុងរង់ចាំការផ្ទេរប្រាក់...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎉 Success Alert -->
+    <div id="successAlert" class="alert-modal">
+        <div class="alert-content">
+            <div class="success-icon-box">
+                <div class="checkmark-circle">
+                    <div class="checkmark draw"></div>
+                </div>
+            </div>
+            <h2><i class="fas fa-check-circle"></i> Payment Successful!</h2>
+            <p>Your payment has been processed successfully. The item will be delivered in-game shortly!</p>
+            <button class="btn-alert-close" onclick="closeSuccessAlert()">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+    </div>
+
+    <!-- 🍞 Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- 🦶 Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4><i class="fas fa-tree"></i> FOREST-SMP</h4>
+                <p>The best Minecraft survival experience</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="../index.html#home"><i class="fas fa-home"></i> Home</a>
+                <a href="../index.html#rank"><i class="fas fa-crown"></i> Rank Shop</a>
+                <a href="items.html"><i class="fas fa-box-open"></i> Items Shop</a>
+            </div>
+            <div class="footer-col">
+                <h4>Payment Support</h4>
+                <a href="#"><i class="fas fa-university"></i> ABA</a>
+                <a href="#"><i class="fas fa-university"></i> ACLEDA</a>
+                <a href="#"><i class="fas fa-qrcode"></i> KHQR</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> forestkh.net@gmail.com</p>
+                <p><i class="fab fa-discord"></i> @P0KEM0N_MC</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FOREST-SMP. All rights reserved</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="items.js"></script>
+</body>
+                  </html>
