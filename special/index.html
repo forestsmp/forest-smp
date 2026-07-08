@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Items</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 🌐 Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-logo" onclick="window.location.href='../index.html'">
+            <i class="fas fa-tree"></i> FOREST-SMP
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="../index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="../index.html#rank"><i class="fas fa-crown"></i> Rank</a></li>
+            <li><a href="#" class="active-link"><i class="fas fa-gem"></i> Special Items</a></li>
+            <li><a href="../index.html#support"><i class="fas fa-headset"></i> Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- 📦 Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-gem"></i> Special Items Shop</h1>
+            <p>Purchase special items and kits to enhance your gameplay experience</p>
+        </div>
+
+        <!-- 🏷️ Category Tabs -->
+        <div class="category-tabs">
+            <button class="tab-btn active" onclick="filterCategory('all', this)">
+                <i class="fas fa-th-large"></i> All Items
+            </button>
+            <button class="tab-btn" onclick="filterCategory('kit', this)">
+                <i class="fas fa-box-open"></i> Kits
+            </button>
+            <button class="tab-btn" onclick="filterCategory('cosmetic', this)">
+                <i class="fas fa-palette"></i> Cosmetics
+            </button>
+            <button class="tab-btn" onclick="filterCategory('boost', this)">
+                <i class="fas fa-rocket"></i> Boosts
+            </button>
+        </div>
+
+        <!-- 🛍️ Items Grid -->
+        <div class="items-grid" id="itemsGrid">
+
+            <!-- 🗡️ Starter Kit -->
+            <div class="item-card" data-category="kit">
+                <div class="item-icon-wrapper starter">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="item-badge">STARTER</div>
+                <h3 class="item-name">Starter Kit</h3>
+                <p class="item-desc">Iron armor set, iron tools, 32 steak, and a bed. Perfect for new players!</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Iron Armor Set</span>
+                    <span><i class="fas fa-check"></i> Iron Tools</span>
+                    <span><i class="fas fa-check"></i> 32x Steak</span>
+                    <span><i class="fas fa-check"></i> 1x Bed</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.01</span>
+                    <span class="price-khr">≈ 40 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'starter_kit', 0.01, 'Starter Kit')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 🏗️ Builder Kit -->
+            <div class="item-card" data-category="kit">
+                <div class="item-icon-wrapper builder">
+                    <i class="fas fa-hammer"></i>
+                </div>
+                <div class="item-badge builder-badge">BUILDER</div>
+                <h3 class="item-name">Builder Kit</h3>
+                <p class="item-desc">64x of each wood plank, cobblestone, glass, and torches for your builds.</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> 64x Wood Planks</span>
+                    <span><i class="fas fa-check"></i> 64x Cobblestone</span>
+                    <span><i class="fas fa-check"></i> 64x Glass</span>
+                    <span><i class="fas fa-check"></i> 64x Torches</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.02</span>
+                    <span class="price-khr">≈ 80 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'builder_kit', 0.02, 'Builder Kit')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- ⚔️ PvP Kit -->
+            <div class="item-card" data-category="kit">
+                <div class="popular-ribbon">
+                    <i class="fas fa-fire"></i> POPULAR
+                </div>
+                <div class="item-icon-wrapper pvp">
+                    <i class="fas fa-khanda"></i>
+                </div>
+                <div class="item-badge pvp-badge">PVP</div>
+                <h3 class="item-name">PvP Kit</h3>
+                <p class="item-desc">Full diamond armor, diamond sword, bow with arrows, and golden apples.</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Diamond Armor Set</span>
+                    <span><i class="fas fa-check"></i> Diamond Sword</span>
+                    <span><i class="fas fa-check"></i> Bow + 64 Arrows</span>
+                    <span><i class="fas fa-check"></i> 8x Golden Apple</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.03</span>
+                    <span class="price-khr">≈ 120 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'pvp_kit', 0.03, 'PvP Kit')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 💎 Diamond Kit -->
+            <div class="item-card" data-category="kit">
+                <div class="item-icon-wrapper diamond">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="item-badge diamond-badge">DIAMOND</div>
+                <h3 class="item-name">Diamond Kit</h3>
+                <p class="item-desc">Full enchanted diamond gear with Protection IV, Sharpness V, and more.</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Enchanted Diamond Armor</span>
+                    <span><i class="fas fa-check"></i> Sharpness V Sword</span>
+                    <span><i class="fas fa-check"></i> Fortune III Pickaxe</span>
+                    <span><i class="fas fa-check"></i> Efficiency V Pickaxe</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.05</span>
+                    <span class="price-khr">≈ 200 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'diamond_kit', 0.05, 'Diamond Kit')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 🎨 Particle Trail -->
+            <div class="item-card" data-category="cosmetic">
+                <div class="item-icon-wrapper cosmetic">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <div class="item-badge cosmetic-badge">COSMETIC</div>
+                <h3 class="item-name">Particle Trail</h3>
+                <p class="item-desc">Leave a beautiful trail of particles wherever you walk. Choose from multiple styles!</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Flame Trail</span>
+                    <span><i class="fas fa-check"></i> Heart Trail</span>
+                    <span><i class="fas fa-check"></i> Star Trail</span>
+                    <span><i class="fas fa-check"></i> 7 Days Duration</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.02</span>
+                    <span class="price-khr">≈ 80 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'particle_trail', 0.02, 'Particle Trail')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 🏷️ Custom Prefix -->
+            <div class="item-card" data-category="cosmetic">
+                <div class="item-icon-wrapper prefix">
+                    <i class="fas fa-tag"></i>
+                </div>
+                <div class="item-badge prefix-badge">PREFIX</div>
+                <h3 class="item-name">Custom Chat Prefix</h3>
+                <p class="item-desc">Set a custom colored prefix that appears before your name in chat. Stand out!</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Custom Text (up to 10 chars)</span>
+                    <span><i class="fas fa-check"></i> Color Choice</span>
+                    <span><i class="fas fa-check"></i> Permanent</span>
+                    <span><i class="fas fa-check"></i> Works in all channels</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.02</span>
+                    <span class="price-khr">≈ 80 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'custom_prefix', 0.02, 'Custom Chat Prefix')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 🚀 XP Boost -->
+            <div class="item-card" data-category="boost">
+                <div class="item-icon-wrapper boost-xp">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="item-badge boost-badge">BOOST</div>
+                <h3 class="item-name">2x XP Boost</h3>
+                <p class="item-desc">Double your experience gains from mining, killing mobs, and smelting for 24 hours!</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> 2x Mining XP</span>
+                    <span><i class="fas fa-check"></i> 2x Mob Kill XP</span>
+                    <span><i class="fas fa-check"></i> 2x Smelting XP</span>
+                    <span><i class="fas fa-check"></i> 24 Hours Duration</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.01</span>
+                    <span class="price-khr">≈ 40 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'xp_boost', 0.01, '2x XP Boost')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 🔥 God Kit -->
+            <div class="item-card" data-category="kit">
+                <div class="best-ribbon">
+                    <i class="fas fa-star"></i> BEST VALUE
+                </div>
+                <div class="item-icon-wrapper god">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="item-badge god-badge">GOD</div>
+                <h3 class="item-name">God Kit</h3>
+                <p class="item-desc">Full Netherite enchanted gear, totem of undying, elytra, and end crystals.</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Netherite Armor (Prot IV)</span>
+                    <span><i class="fas fa-check"></i> Netherite Sword (Sharp V)</span>
+                    <span><i class="fas fa-check"></i> Elytra + Firework</span>
+                    <span><i class="fas fa-check"></i> Totem of Undying x3</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.10</span>
+                    <span class="price-khr">≈ 410 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'god_kit', 0.10, 'God Kit')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+            <!-- 🎁 Mystery Box -->
+            <div class="item-card" data-category="boost">
+                <div class="item-icon-wrapper mystery">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="item-badge mystery-badge">MYSTERY</div>
+                <h3 class="item-name">Mystery Box</h3>
+                <p class="item-desc">Random surprise items! Could contain rare kits, cosmetics, or even rank upgrades!</p>
+                <div class="item-contents">
+                    <span><i class="fas fa-check"></i> Random Rare Items</span>
+                    <span><i class="fas fa-check"></i> Chance for Rank Upgrade</span>
+                    <span><i class="fas fa-check"></i> Exclusive Cosmetics</span>
+                    <span><i class="fas fa-check"></i> Guaranteed Value</span>
+                </div>
+                <div class="item-price">
+                    <span class="price-usd">$0.03</span>
+                    <span class="price-khr">≈ 120 ៛</span>
+                </div>
+                <button class="btn-buy" onclick="openBuyForm('special', 'mystery_box', 0.03, 'Mystery Box')">
+                    <i class="fas fa-shopping-cart"></i> BUY NOW
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ⬅️ Back to Home -->
+        <div class="back-home">
+            <a href="../index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <!-- 📝 Buy Form Modal -->
+    <div class="modal" id="buyFormModal">
+        <div class="modal-content form-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-bag"></i> Customer Information</h2>
+                <button class="btn-close" onclick="closeBuyForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="selected-item-info" id="selectedItemInfo"></div>
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Minecraft Username (IGN):</label>
+                <input type="text" id="input-ign" placeholder="Enter your in-game name" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email:</label>
+                <input type="email" id="input-email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-gamepad"></i> Platform:</label>
+                <select id="input-platform">
+                    <option value="java">Java Edition</option>
+                    <option value="bedrock">Bedrock Edition</option>
+                </select>
+            </div>
+            <button class="btn-proceed" onclick="proceedToPayment()">
+                <i class="fas fa-lock"></i> PROCEED TO PAYMENT
+            </button>
+        </div>
+    </div>
+
+    <!-- 💵 KHQR Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content khqr-new-design">
+            <div class="khqr-red-header">
+                <span class="khqr-logo-text">KHQR</span>
+                <button class="btn-close-khqr" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="khqr-body">
+                <div class="khqr-merchant-name">FOREST-SMP</div>
+                <div class="khqr-amount-display">
+                    <span class="khqr-amount-value" id="khqr-amount">0,00</span>
+                    <span class="khqr-amount-currency">USD</span>
+                </div>
+                <div class="khqr-divider"></div>
+                <div class="khqr-qr-wrapper">
+                    <div class="khqr-qrcode" id="qrcode-box"></div>
+                    <div class="khqr-dollar-logo">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="khqr-timeout-overlay" id="qr-timeout-overlay">
+                        <span><i class="fas fa-exclamation-circle"></i> QR Code បានផុតកំណត់!</span>
+                    </div>
+                </div>
+                <div class="khqr-timer-section">
+                    <span class="khqr-timer-label">QR Code មានសុពលភាព</span>
+                    <span class="khqr-timer-value" id="countdown-timer">03:00</span>
+                </div>
+                <div class="khqr-loading-status" id="payment-spinner">
+                    <div class="khqr-spinner"></div>
+                    <span>កំពុងរង់ចាំការផ្ទេរប្រាក់...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎉 Success Alert -->
+    <div class="alert-modal" id="successAlert">
+        <div class="alert-content">
+            <div class="success-icon-box">
+                <span class="checkmark-circle">
+                    <span class="checkmark draw"></span>
+                </span>
+            </div>
+            <h2><i class="fas fa-check-circle"></i> Payment Successful!</h2>
+            <p>Your payment has been processed successfully. The item will be delivered in-game shortly!</p>
+            <button class="btn-alert-close" onclick="closeSuccessAlert()">
+                <i class="fas fa-thumbs-up"></i> Close
+            </button>
+        </div>
+    </div>
+
+    <!-- 🍞 Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- 🦶 Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4><i class="fas fa-tree"></i> FOREST-SMP</h4>
+                <p>The best Minecraft survival experience</p>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-link"></i> Quick Links</h4>
+                <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="../index.html#rank"><i class="fas fa-crown"></i> Rank Shop</a>
+                <a href="#"><i class="fas fa-gem"></i> Special Items</a>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-credit-card"></i> Payment Support</h4>
+                <a href="#"><i class="fas fa-university"></i> ABA</a>
+                <a href="#"><i class="fas fa-university"></i> ACLEDA</a>
+                <a href="#"><i class="fas fa-qrcode"></i> KHQR</a>
+            </div>
+            <div class="footer-col">
+                <h4><i class="fas fa-envelope"></i> Contact</h4>
+                <p><i class="fas fa-envelope"></i> forestkh.net@gmail.com</p>
+                <p><i class="fab fa-telegram"></i> @P0KEM0N_MC</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 FOREST-SMP. All rights reserved
+        </div>
+    </footer>
+
+    <!-- 📜 Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
