@@ -141,7 +141,7 @@ async function confirmAndPay() {
                 width: 190,
                 height: 190
             });
-            startCountdownTimer(180);
+            startCountdownTimer(300);
             startPaymentPolling(result.transaction_id);
         } else {
             showToast("⚠️ ដំណើរការខុសប្ក្រតី: " + result.message, 'error');
