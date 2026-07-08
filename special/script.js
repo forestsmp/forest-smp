@@ -118,11 +118,12 @@ async function confirmAndPay() {
     document.getElementById("paymentModal").classList.add('active');
 
     const payload = {
-        player_name: currentOrder.ign,
-        platform: currentOrder.platform,
-        category: currentOrder.category.toLowerCase(),
-        value: currentOrder.value
-    };
+    player_name: currentOrder.ign,
+    email: currentOrder.email,  // ✅ បន្ថែមបន្ទាត់នេះ
+    platform: currentOrder.platform,
+    category: currentOrder.category.toLowerCase(),
+    value: currentOrder.value
+};
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/create-order`, {
