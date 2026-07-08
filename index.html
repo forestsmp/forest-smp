@@ -13,13 +13,13 @@
 <body>
     <!-- 🌐 Navigation Bar -->
     <nav class="navbar">
-        <div class="nav-logo" onclick="showPage('home')">
-            <i class=""></i> FOREST-SMP
+        <div class="nav-logo" onclick="window.location.href='/'">
+            <i class="fas fa-tree"></i> FOREST-SMP
         </div>
         <ul class="nav-links" id="navLinks">
             <li><a href="#home" onclick="showPage('home'); closeMenu()"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="#rank" onclick="showPage('rank'); closeMenu()"><i class="fas fa-crown"></i> Rank</a></li>
-            <li><a href="/lifes" onclick="showPage('life'); closeMenu()"><i class="fas fa-heart"></i> Life</a></li>
+            <li><a href="/lifes"><i class="fas fa-heart"></i> Life</a></li>
             <li><a href="#support" onclick="showPage('support'); closeMenu()"><i class="fas fa-headset"></i> Support</a></li>
         </ul>
         <button class="hamburger" onclick="toggleMenu()">
@@ -31,7 +31,7 @@
         <!-- 🏠 Home Page -->
         <div id="page-home" class="store-page active">
             <div class="welcome-text">
-                <h1><i class=""></i> Welcome to FOREST-SMP</h1>
+                <h1><i class="fas fa-tree"></i> Welcome to FOREST-SMP</h1>
                 <p>Please select the type of service you would like to view or purchase below</p>
             </div>
             <div class="home-boxes">
@@ -40,13 +40,13 @@
                     <h3>Rank Shop</h3>
                     <p>Upgrade your rank for exclusive perks</p>
                 </div>
-                <div class="home-box box-rank" onclick="showPage('life')">
-                    <div class="box-icon"><i class="fas fa-box-open"></i></div>
+                <div class="home-box box-rank" onclick="window.location.href='/special/'">
+                    <div class="box-icon"><i class="fas fa-gem"></i></div>
                     <h3>Special Items</h3>
                     <p>Purchase special items and kits</p>
                 </div>
-                <div class="home-box box-life" onclick="showPage('support')">
-                    <div class="box-icon"><i class="fas fa-heart"></i></div>
+                <div class="home-box box-life" onclick="window.location.href='/lifes/'">
+                    <div class="box-icon"><i class="fas fa-heart-pulse"></i></div>
                     <h3>Life Boost</h3>
                     <p>Get extra lives and boosts</p>
                 </div>
@@ -97,15 +97,16 @@
             </div>
         </div>
 
-        <!-- ❤️ Life Page -->
+        <!-- ❤️ Life Page (Auto Redirect) -->
         <div id="page-life" class="store-page">
-             <script>
-             window.location.href = '/lifes';
+            <script>
+                window.location.href = '/lifes/';
             </script>
             <p style="text-align: center; color: #4caf50; padding: 40px;">
-            <i class="fas fa-spinner fa-spin"></i> Redirecting to Life Boost page...
+                <i class="fas fa-spinner fa-spin"></i> Redirecting to Life Boost page...
             </p>
-         </div>
+        </div>
+
         <!-- ❓ Support Page -->
         <div id="page-support" class="store-page">
             <h2><i class="fas fa-headset"></i> Support</h2>
@@ -203,10 +204,10 @@
         </div>
     </div>
 
-    <!--  KHQR Payment Modal (Updated Design) -->
+    <!-- 💵 KHQR Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content khqr-new-design">
-            <!-- Red Header Bar - KHQR Centered -->
+            <!-- Red Header Bar -->
             <div class="khqr-red-header">
                 <div class="khqr-logo-text">KHQR</div>
                 <button class="btn-close-khqr" onclick="closeModal()">✕</button>
@@ -214,10 +215,8 @@
 
             <!-- Body Content -->
             <div class="khqr-body">
-                <!-- Merchant Name - Left Aligned (FOREST-SMP) -->
                 <div class="khqr-merchant-name" id="khqr-merchant">FOREST-SMP</div>
 
-                <!-- Amount Display - Left Aligned -->
                 <div class="khqr-amount-display">
                     <span class="khqr-amount-value" id="khqr-amount">0,01</span>
                     <span class="khqr-amount-currency">USD</span>
@@ -225,10 +224,11 @@
 
                 <div class="khqr-divider"></div>
 
-                <!-- QR Code Area with $ Logo in Center -->
+                <!-- QR Code Area -->
                 <div class="khqr-qr-wrapper">
                     <div id="qrcode-box" class="khqr-qrcode"></div>
-                    <!-- $ Logo Overlay in Center of QR --
+                    <div class="khqr-dollar-logo">
+                        <i class="fas fa-dollar-sign"></i>
                     </div>
                     <!-- Timeout Overlay -->
                     <div id="qr-timeout-overlay" class="khqr-timeout-overlay">
@@ -281,6 +281,8 @@
                 <h4>Quick Links</h4>
                 <a href="#home" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a>
                 <a href="#rank" onclick="showPage('rank')"><i class="fas fa-crown"></i> Rank Shop</a>
+                <a href="/special/"><i class="fas fa-gem"></i> Special Items</a>
+                <a href="/lifes/"><i class="fas fa-heart"></i> Life Boost</a>
                 <a href="#support" onclick="showPage('support')"><i class="fas fa-headset"></i> Support</a>
             </div>
             <div class="footer-col">
@@ -308,4 +310,4 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="script.js"></script>
 </body>
-                        </html>
+    </html>
