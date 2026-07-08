@@ -133,10 +133,15 @@ async function confirmAndPay() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
+        
         const result = await response.json();
         
         if (result.status === "success") {
             showToast("QR Code បានបង្កើតដោយជោគជ័យ!", 'success');
+            
+            // Update amount display in new KHQR design
+            document.getElementById("khqr-amount").innerText = 
+                currentOrder.price.toFixed(2).replace('.', ',');
             
             document.getElementById("qrcode-box").innerHTML = "";
             new QRCode(document.getElementById("qrcode-box"), {
@@ -160,14 +165,17 @@ async function confirmAndPay() {
 // ⏰ Countdown Timer
 function startCountdownTimer(durationInSeconds) {
     if (countdownInterval) clearInterval(countdownInterval);
+    
     let timer = durationInSeconds;
     const timerDisplay = document.getElementById('countdown-timer');
     
     countdownInterval = setInterval(() => {
         let minutes = parseInt(timer / 60, 10);
         let seconds = parseInt(timer % 60, 10);
+        
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
+        
         timerDisplay.innerText = `${minutes}:${seconds}`;
         
         if (--timer < 0) {
@@ -211,15 +219,13 @@ function startPaymentPolling(transactionId) {
 async function sendTelegramNotification() {
     const message = `
 🎉 <b>PAYMENT SUCCESSFUL!</b>
-
 👤 <b>Player:</b> ${currentOrder.ign}
 📧 <b>Email:</b> ${currentOrder.email}
 🎮 <b>Platform:</b> ${currentOrder.platform.toUpperCase()}
 🏆 <b>Rank:</b> ${currentOrder.value.toUpperCase()}
 💰 <b>Price:</b> $${currentOrder.price.toFixed(2)}
-
 ⏰ <b>Time:</b> ${new Date().toLocaleString('km-KH')}
-    `.trim();
+`.trim();
     
     try {
         await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -271,4 +277,4 @@ window.onclick = function(event) {
     if (event.target === buyModal) {
         closeBuyForm();
     }
-    }
+}
