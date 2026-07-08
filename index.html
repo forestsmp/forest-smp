@@ -1,258 +1,306 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FOREST-SMP</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOREST-SMP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<!-- 🌐 Navigation Bar -->
-<nav class="navbar">
-    <div class="nav-logo" onclick="showPage('home')">
-        <i class="fas fa-tree"></i> FOREST-SMP
-    </div>
-    <button class="hamburger" onclick="toggleMenu()">
-        <i class="fas fa-bars"></i>
-    </button>
-    <ul class="nav-links" id="navLinks">
-        <li><a href="#" onclick="showPage('home'); closeMenu();"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#" onclick="showPage('rank'); closeMenu();"><i class="fas fa-crown"></i> Rank</a></li>
-        <li><a href="#" onclick="showPage('life'); closeMenu();"><i class="fas fa-heart"></i> Life</a></li>
-        <li><a href="#" onclick="showPage('support'); closeMenu();"><i class="fas fa-headset"></i> Support</a></li>
-    </ul>
-</nav>
-
-<div class="container">
-
-    <!-- 🏠 HOME PAGE -->
-    <div class="store-page active" id="page-home">
-        <div class="welcome-text">
-            <h1><i class="fas fa-store"></i> Welcome to FOREST-SMP</h1>
-            <p>Please select the type of service you would like to view or purchase below</p>
+    <!-- 🌐 Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-logo" onclick="showPage('home')">
+            <i class=""></i> FOREST-SMP
         </div>
-        <div class="home-boxes">
-            <div class="home-box box-views" onclick="showPage('rank')">
-                <div class="box-icon"><i class="fas fa-gem"></i></div>
-                <h3>Rank Shop</h3>
-                <p>Upgrade your rank for exclusive perks</p>
-            </div>
-            <div class="home-box box-rank" onclick="showPage('rank')">
-                <div class="box-icon"><i class="fas fa-trophy"></i></div>
-                <h3>Special Items</h3>
-                <p>Purchase special items and kits</p>
-            </div>
-            <div class="home-box box-life" onclick="showPage('life')">
-                <div class="box-icon"><i class="fas fa-heartbeat"></i></div>
-                <h3>Life Boost</h3>
-                <p>Get extra lives and boosts</p>
-            </div>
-        </div>
-    </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" onclick="showPage('home'); closeMenu()"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="#rank" onclick="showPage('rank'); closeMenu()"><i class="fas fa-crown"></i> Rank</a></li>
+            <li><a href="#life" onclick="showPage('life'); closeMenu()"><i class="fas fa-heart"></i> Life</a></li>
+            <li><a href="#support" onclick="showPage('support'); closeMenu()"><i class="fas fa-headset"></i> Support</a></li>
+        </ul>
+        <button class="hamburger" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
 
-    <!-- 💎 RANK PAGE -->
-    <div class="store-page" id="page-rank">
-        <h2><i class="fas fa-shopping-bag"></i> Select Your Rank</h2>
-        <div class="grid-container">
-            <div class="rank-card" id="card-acacia">
-                <div class="badge rank-acacia"><i class="fas fa-seedling"></i> ACACIA</div>
-                <div class="price">$0.01 <span class="khr">≈ 40 ៛</span></div>
-                <div class="desc">Basic rank with custom prefix and color.</div>
-                <button class="btn-buy" onclick="openBuyForm('rank', 'acacia', 0.01)">
-                    <i class="fas fa-shopping-cart"></i> BUY NOW
-                </button>
+    <div class="container">
+        <!-- 🏠 Home Page -->
+        <div id="page-home" class="store-page active">
+            <div class="welcome-text">
+                <h1><i class=""></i> Welcome to FOREST-SMP</h1>
+                <p>Please select the type of service you would like to view or purchase below</p>
             </div>
-            <div class="rank-card" id="card-azalea">
-                <span class="card-badge"><i class="fas fa-star"></i> POPULAR</span>
-                <div class="badge rank-azalea"><i class="fas fa-spa"></i> AZALEA</div>
-                <div class="price">$0.02 <span class="khr">≈ 80 ៛</span></div>
-                <div class="desc">Fly mode, /home, and exclusive kits.</div>
-                <button class="btn-buy" onclick="openBuyForm('rank', 'azalea', 0.02)">
-                    <i class="fas fa-shopping-cart"></i> BUY NOW
-                </button>
-            </div>
-            <div class="rank-card" id="card-jungle">
-                <span class="card-badge"><i class="fas fa-fire"></i> BEST VALUE</span>
-                <div class="badge rank-jungle"><i class="fas fa-leaf"></i> JUNGLE</div>
-                <div class="price">$0.03 <span class="khr">≈ 120 ៛</span></div>
-                <div class="desc">All perks + private warp & priority support.</div>
-                <button class="btn-buy" onclick="openBuyForm('rank', 'jungle', 0.03)">
-                    <i class="fas fa-shopping-cart"></i> BUY NOW
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ❤️ LIFE PAGE -->
-    <div class="store-page" id="page-life">
-        <h2><i class="fas fa-heart"></i> Life</h2>
-        <p>This page is preparing the same as the Rank page.</p>
-    </div>
-
-    <!-- 📞 SUPPORT PAGE (with FAQ) -->
-    <div class="store-page" id="page-support">
-        <h2><i class="fas fa-headset"></i> Support</h2>
-        <p>If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
-
-        <div class="faq-section">
-            <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    How long does delivery take? <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+            <div class="home-boxes">
+                <div class="home-box box-views" onclick="showPage('rank')">
+                    <div class="box-icon"><i class="fas fa-crown"></i></div>
+                    <h3>Rank Shop</h3>
+                    <p>Upgrade your rank for exclusive perks</p>
                 </div>
-                <div class="faq-answer">
-                    Items are delivered within <strong>1-5 minutes</strong> after payment confirmation. Please make sure you are online in-game.
+                <div class="home-box box-rank" onclick="showPage('life')">
+                    <div class="box-icon"><i class="fas fa-box-open"></i></div>
+                    <h3>Special Items</h3>
+                    <p>Purchase special items and kits</p>
                 </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    What payment methods are accepted? <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    We accept <strong>ABA, ACLEDA, KHQR</strong> and all Cambodian banking apps via KHQR payment system.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    What if I don't receive my rank? <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    Please contact us on <strong>Discord</strong> or <strong>Telegram</strong> with your transaction ID. Our support team will resolve the issue within 24 hours.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    Can I get a refund? <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    Refunds are handled on a case-by-case basis. Please contact our support team for more information.
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    Do ranks expire? <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    No! All ranks are <strong>permanent</strong> and will stay on your account forever.
+                <div class="home-box box-life" onclick="showPage('support')">
+                    <div class="box-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Life Boost</h3>
+                    <p>Get extra lives and boosts</p>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- 📝 Buy Form Modal -->
-<div class="modal" id="buyFormModal">
-    <div class="modal-content form-modal-content">
-        <div class="modal-header">
-            <h2><i class="fas fa-user-edit"></i> Customer Information</h2>
-            <button class="btn-close" onclick="closeBuyForm()">
-                <i class="fas fa-times"></i>
+        <!-- 💎 Rank Page -->
+        <div id="page-rank" class="store-page">
+            <h2><i class="fas fa-crown"></i> Select Your Rank</h2>
+            <div class="grid-container">
+                <div class="rank-card">
+                    <div class="badge rank-acacia"><i class="fas fa-seedling"></i> ACACIA</div>
+                    <div class="price">
+                        $0.01
+                        <span class="khr">≈ 40 ៛</span>
+                    </div>
+                    <p class="desc">Basic rank with custom prefix and color.</p>
+                    <button class="btn-buy" onclick="openBuyForm('rank', 'acacia', 0.01)">
+                        <i class="fas fa-shopping-cart"></i> BUY NOW
+                    </button>
+                </div>
+
+                <div class="rank-card">
+                    <div class="card-badge"><i class="fas fa-fire"></i> POPULAR</div>
+                    <div class="badge rank-azalea"><i class="fas fa-flower"></i> AZALEA</div>
+                    <div class="price">
+                        $0.02
+                        <span class="khr">≈ 80 ៛</span>
+                    </div>
+                    <p class="desc">Fly mode, /home, and exclusive kits.</p>
+                    <button class="btn-buy" onclick="openBuyForm('rank', 'azalea', 0.02)">
+                        <i class="fas fa-shopping-cart"></i> BUY NOW
+                    </button>
+                </div>
+
+                <div class="rank-card">
+                    <div class="card-badge"><i class="fas fa-star"></i> BEST VALUE</div>
+                    <div class="badge rank-jungle"><i class="fas fa-leaf"></i> JUNGLE</div>
+                    <div class="price">
+                        $0.03
+                        <span class="khr">≈ 120 ៛</span>
+                    </div>
+                    <p class="desc">All perks + private warp & priority support.</p>
+                    <button class="btn-buy" onclick="openBuyForm('rank', 'jungle', 0.03)">
+                        <i class="fas fa-shopping-cart"></i> BUY NOW
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ❤️ Life Page -->
+        <div id="page-life" class="store-page">
+            <h2><i class="fas fa-heart"></i> Life</h2>
+            <p style="text-align: center; color: #a0aec0; padding: 40px;">This page is preparing the same as the Rank page.</p>
+        </div>
+
+        <!-- ❓ Support Page -->
+        <div id="page-support" class="store-page">
+            <h2><i class="fas fa-headset"></i> Support</h2>
+            <p style="text-align: center; color: #cbd5e0; margin-bottom: 30px;">If you encounter any issues while purchasing, please contact our Discord or Telegram server.</p>
+            
+            <div class="faq-section">
+                <h3><i class="fas fa-question-circle"></i> Frequently Asked Questions</h3>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>How long does delivery take?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Items are delivered within <strong>1-5 minutes</strong> after payment confirmation. Please make sure you are online in-game.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>What payment methods are accepted?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        We accept <strong>ABA, ACLEDA, KHQR</strong> and all Cambodian banking apps via KHQR payment system.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>What if I don't receive my rank?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Please contact us on <strong>Discord</strong> or <strong>Telegram</strong> with your transaction ID. Our support team will resolve the issue within 24 hours.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can I get a refund?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Refunds are handled on a case-by-case basis. Please contact our support team for more information.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>Do ranks expire?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        No! All ranks are <strong>permanent</strong> and will stay on your account forever.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🛒 Buy Form Modal -->
+    <div id="buyFormModal" class="modal">
+        <div class="modal-content form-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shopping-cart"></i> Customer Information</h2>
+                <button class="btn-close" onclick="closeBuyForm()">✕</button>
+            </div>
+            
+            <div id="selectedItemInfo" class="selected-item-info">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Minecraft Username (IGN):</label>
+                <input type="text" id="input-ign" placeholder="Enter your Minecraft username">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email:</label>
+                <input type="email" id="input-email" placeholder="Enter your email address">
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-gamepad"></i> Platform:</label>
+                <select id="input-platform">
+                    <option value="java">Java Edition</option>
+                    <option value="bedrock">Bedrock Edition</option>
+                </select>
+            </div>
+
+            <button class="btn-proceed" onclick="proceedToPayment()">
+                <i class="fas fa-arrow-right"></i> PROCEED TO PAYMENT
             </button>
         </div>
-        <div class="selected-item-info" id="selectedItemInfo"></div>
-        <div class="form-group">
-            <label><i class="fas fa-gamepad"></i> Minecraft Username (IGN):</label>
-            <input type="text" id="input-ign" placeholder="Enter your in-game name">
-        </div>
-        <div class="form-group">
-            <label><i class="fas fa-envelope"></i> Email:</label>
-            <input type="email" id="input-email" placeholder="example@email.com">
-        </div>
-        <div class="form-group">
-            <label><i class="fas fa-desktop"></i> Platform:</label>
-            <select id="input-platform">
-                <option value="java">Java Edition</option>
-                <option value="bedrock">Bedrock Edition</option>
-            </select>
-        </div>
-        <button class="btn-proceed" onclick="proceedToPayment()">
-            <i class="fas fa-credit-card"></i> PROCEED TO PAYMENT
-        </button>
     </div>
-</div>
 
-<!-- 💵 KHQR Payment Modal -->
-<div class="modal" id="paymentModal">
-    <div class="modal-content">
-        <h2 class="khqr-title"><i class="fas fa-qrcode"></i> KHQR PAYMENT</h2>
-        <p class="khqr-subtitle">scan any banking in cambodia.</p>
-        <div class="qr-container">
-            <div id="qrcode-box"></div>
-            <div class="timeout-overlay" id="qr-timeout-overlay">
-                <i class="fas fa-times-circle"></i> QR Code Expired
+    <!-- 💵 KHQR Payment Modal (New Design) -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content khqr-new-design">
+            <!-- Red Header Bar -->
+            <div class="khqr-red-header">
+                <div class="khqr-logo-text">KHQR</div>
+                <button class="btn-close-khqr" onclick="closeModal()">✕</button>
+            </div>
+
+            <!-- Body Content -->
+            <div class="khqr-body">
+                <!-- Merchant / Code Name -->
+                <div class="khqr-merchant-name">AHNAJAK-CODE</div>
+
+                <!-- Amount Display -->
+                <div class="khqr-amount-display">
+                    <span class="khqr-amount-value" id="khqr-amount">0,01</span>
+                    <span class="khqr-amount-currency">USD</span>
+                </div>
+
+                <div class="khqr-divider"></div>
+
+                <!-- QR Code Area -->
+                <div class="khqr-qr-wrapper">
+                    <div id="qrcode-box" class="khqr-qrcode"></div>
+                    <!-- Timeout Overlay -->
+                    <div id="qr-timeout-overlay" class="khqr-timeout-overlay">
+                        <p><i class="fas fa-times-circle"></i> QR Code បានផុតកំណត់!</p>
+                    </div>
+                </div>
+
+                <!-- Timer -->
+                <div class="khqr-timer-section">
+                    <span class="khqr-timer-label">QR Code មានសុពលភាព</span>
+                    <span class="khqr-timer-value" id="countdown-timer">07:00</span>
+                </div>
+
+                <!-- Loading Status -->
+                <div id="payment-spinner" class="khqr-loading-status">
+                    <div class="khqr-spinner"></div>
+                    <span>កំពុងរង់ចាំការផ្ទេរប្រាក់...</span>
+                </div>
             </div>
         </div>
-        <p class="khqr-msg"><i class="fas fa-info-circle"></i> Pay to buy rank now, faster.</p>
-        <div class="timer-box">
-            <i class="fas fa-clock"></i> This QR code is valid: <span id="countdown-timer">07:00</span>
-        </div>
-        <div class="loading-status" id="payment-spinner">
-            <div class="spinner"></div>
-            <span><i class="fas fa-hourglass-half"></i> Waiting for bank transfer...</span>
+    </div>
+
+    <!-- 🎉 Success Alert -->
+    <div id="successAlert" class="alert-modal">
+        <div class="alert-content">
+            <div class="success-icon-box">
+                <div class="checkmark-circle">
+                    <div class="checkmark draw"></div>
+                </div>
+            </div>
+            <h2><i class="fas fa-check-circle"></i> Payment Successful!</h2>
+            <p>Your payment has been processed successfully. The system will deliver the item in-game shortly!</p>
+            <button class="btn-alert-close" onclick="closeSuccessAlert()">
+                <i class="fas fa-times"></i> Close
+            </button>
         </div>
     </div>
-</div>
 
-<!-- 🎉 Success Alert -->
-<div class="alert-modal" id="successAlert">
-    <div class="alert-content">
-        <div class="success-icon-box">
-            <span class="checkmark-circle"><span class="checkmark draw"></span></span>
-        </div>
-        <h2><i class="fas fa-check-circle"></i> Payment Successful!</h2>
-        <p>Your payment has been processed successfully. The system will deliver the item in-game shortly!</p>
-        <button class="btn-alert-close" onclick="closeSuccessAlert()">
-            <i class="fas fa-check"></i> Close
-        </button>
-    </div>
-</div>
+    <!-- 🍞 Toast Container -->
+    <div id="toast-container"></div>
 
-<!-- 🍞 Toast Container -->
-<div id="toast-container"></div>
-
-<!-- 🦶 Footer -->
-<footer class="site-footer">
-    <div class="footer-content">
-        <div class="footer-col">
-            <h4><i class="fas fa-tree"></i> FOREST-SMP</h4>
-            <p>The best Minecraft survival experience</p>
-            <div class="social-links">
-                <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
-                <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+    <!-- 🦶 Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4><i class="fas fa-tree"></i> FOREST-SMP</h4>
+                <p>The best Minecraft survival experience</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="#home" onclick="showPage('home')"><i class="fas fa-home"></i> Home</a>
+                <a href="#rank" onclick="showPage('rank')"><i class="fas fa-crown"></i> Rank Shop</a>
+                <a href="#support" onclick="showPage('support')"><i class="fas fa-headset"></i> Support</a>
+            </div>
+            <div class="footer-col">
+                <h4>Payment Support</h4>
+                <a href="#"><i class="fas fa-university"></i> ABA</a>
+                <a href="#"><i class="fas fa-university"></i> ACLEDA</a>
+                <a href="#"><i class="fas fa-qrcode"></i> KHQR</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> forestkh.net@gmail.com</p>
+                <p><i class="fab fa-discord"></i> @P0KEM0N_MC</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                </div>
             </div>
         </div>
-        <div class="footer-col">
-            <h4><i class="fas fa-link"></i> Quick Links</h4>
-            <a href="#" onclick="showPage('home')"><i class="fas fa-chevron-right"></i> Home</a>
-            <a href="#" onclick="showPage('rank')"><i class="fas fa-chevron-right"></i> Rank Shop</a>
-            <a href="#" onclick="showPage('support')"><i class="fas fa-chevron-right"></i> Support</a>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FOREST-SMP. All rights reserved</p>
         </div>
-        <div class="footer-col">
-            <h4><i class="fas fa-credit-card"></i> Payment Support</h4>
-            <p><i class="fas fa-check-circle"></i> ABA</p>
-            <p><i class="fas fa-check-circle"></i> ACLEDA</p>
-            <p><i class="fas fa-check-circle"></i> KHQR</p>
-        </div>
-        <div class="footer-col">
-            <h4><i class="fas fa-address-book"></i> Contact</h4>
-            <p><i class="fas fa-envelope"></i> forestkh.net@gmail.com</p>
-            <p><i class="fab fa-telegram"></i> @P0KEM0N_MC</p>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        © 2026 FOREST-SMP. All rights reserved
-    </div>
-</footer>
+    </footer>
 
-<script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
 </body>
     </html>
