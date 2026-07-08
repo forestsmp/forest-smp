@@ -210,7 +210,7 @@ h2 i { margin-right: 10px; }
 .price .khr { display: block; font-size: 14px; color: #a0aec0; font-weight: 400; }
 .desc { font-size: 13px; color: #cbd5e0; line-height: 1.5; margin-bottom: 20px; }
 
-/* 🛒 BUY Button */
+/*  BUY Button */
 .btn-buy {
     width: 100%;
     padding: 12px 20px;
@@ -355,11 +355,11 @@ h2 i { margin-right: 10px; }
     box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
 }
 
-/* 💵 KHQR Modal - New Design (Like Official KHQR) */
+/* 💵 KHQR Modal - Updated Design */
 #paymentModal .modal-content.khqr-new-design {
     background-color: #ffffff;
     color: #333;
-    text-align: center;
+    text-align: left;
     max-width: 360px;
     width: 92%;
     padding: 0;
@@ -370,12 +370,12 @@ h2 i { margin-right: 10px; }
     animation: slideUp 0.35s ease;
 }
 
-/* 🔴 Red Header Bar */
+/* 🔴 Red Header Bar - KHQR Centered */
 .khqr-red-header {
     background: linear-gradient(135deg, #d32f2f, #b71c1c);
     padding: 18px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     position: relative;
 }
@@ -401,11 +401,15 @@ h2 i { margin-right: 10px; }
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .btn-close-khqr:hover {
     background: rgba(255,255,255,0.4);
-    transform: rotate(90deg);
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* 📄 Body Content */
@@ -413,7 +417,7 @@ h2 i { margin-right: 10px; }
     padding: 25px 20px 20px;
 }
 
-/* 🏷️ Merchant Name */
+/* 🏷️ Merchant Name - Left Aligned */
 .khqr-merchant-name {
     font-size: 14px;
     font-weight: 600;
@@ -421,11 +425,13 @@ h2 i { margin-right: 10px; }
     letter-spacing: 1px;
     margin-bottom: 8px;
     text-transform: uppercase;
+    text-align: left;
 }
 
-/* 💰 Amount Display */
+/* 💰 Amount Display - Left Aligned */
 .khqr-amount-display {
     margin-bottom: 15px;
+    text-align: left;
 }
 
 .khqr-amount-value {
@@ -450,7 +456,7 @@ h2 i { margin-right: 10px; }
     margin: 10px 0 20px;
 }
 
-/* 📱 QR Code Wrapper */
+/*  QR Code Wrapper - Centered */
 .khqr-qr-wrapper {
     width: 220px;
     height: 220px;
@@ -477,6 +483,29 @@ h2 i { margin-right: 10px; }
 .khqr-qrcode img,
 .khqr-qrcode canvas {
     border-radius: 6px;
+}
+
+/* 💲 $ Logo in Center of QR */
+.khqr-dollar-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 5;
+}
+
+.khqr-dollar-logo i {
+    font-size: 22px;
+    color: #1a1a1a;
+    font-weight: 900;
 }
 
 /* ⏰ Timeout Overlay */
@@ -526,7 +555,7 @@ h2 i { margin-right: 10px; }
     font-family: 'Courier New', monospace;
 }
 
-/* 🔄 Loading Status */
+/*  Loading Status */
 .khqr-loading-status {
     display: flex;
     align-items: center;
@@ -707,7 +736,7 @@ h2 i { margin-right: 10px; }
     padding: 15px 20px;
 }
 
-/* 🍞 Toast Notifications - Bottom Right */
+/*  Toast Notifications - Bottom Right */
 #toast-container {
     position: fixed;
     bottom: 30px;
@@ -888,4 +917,4 @@ h2 i { margin-right: 10px; }
         min-width: auto;
         width: 100%;
     }
-    }
+}
