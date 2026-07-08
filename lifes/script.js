@@ -122,7 +122,7 @@ async function confirmAndPay() {
     platform: currentOrder.platform,
     category: currentOrder.category,
     value: currentOrder.value
-};
+    };
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/create-order`, {
