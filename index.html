@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOREST-SMP - Website Closed</title>
+    
+    <!-- 🌟 Favicon -->
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Y7njtnTv/imsela-com-removed-20260708-133727.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/Y7njtnTv/imsela-com-removed-20260708-133727.png">
+    
+    <!-- 📱 Meta Tags -->
+    <meta property="og:title" content="FOREST-SMP - Website Closed">
+    <meta property="og:description" content="This website has been permanently closed. Thank you for your support.">
+    <meta property="og:image" content="https://i.ibb.co/Y7njtnTv/imsela-com-removed-20260708-133727.png">
+    <meta property="og:url" content="https://www.forestsmp.site">
+    
+    <!-- 🎨 Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Kantumruy Pro', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /*  Animated Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(229, 57, 53, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+            z-index: 1;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .closed-icon {
+            font-size: 80px;
+            color: #e53935;
+            margin-bottom: 20px;
+            animation: shake 0.8s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #e53935 0%, #ff6b6b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+        
+        .info-item i {
+            color: #4caf50;
+            font-size: 20px;
+        }
+        
+        .contact-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-title {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .contact-link:hover {
+            background: rgba(76, 175, 80, 0.2);
+            border-color: #4caf50;
+            transform: translateY(-2px);
+        }
+        
+        .contact-link i {
+            font-size: 16px;
+        }
+        
+        .thank-you {
+            margin-top: 40px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* 📱 Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .closed-icon {
+                font-size: 60px;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .info-box {
+                padding: 20px;
+            }
+            
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!--  Logo -->
+        <img src="https://i.ibb.co/20LkR4cH/IMG-20260708-202603.png" alt="FOREST-SMP Logo" class="logo">
+        
+        <!--  Closed Icon -->
+        <div class="closed-icon">
+            <i class="fas fa-door-closed"></i>
+        </div>
+        
+        <!-- 📢 Main Message -->
+        <h1>Website Has Been Closed</h1>
+        <p class="subtitle">
+            <br>
+            This website has been permanently closed.
+        </p>
+        
+        <!--  Info Box -->
+        <div class="info-box">
+            <div class="info-item">
+                <i class="fas fa-calendar-times"></i>
+                <span>០៩ ខែកក្កដា ឆ្នាំ២០២៦</span>
+            </div>
+            <div class="info-item">
+                <i class=""></i>
+                <span>bye everyone</span>
+            </div>
+            <div class="info-item">
+                <i class=""></i>
+                <span>Thank you for being part of our community</span>
+            </div>
+        </div>
+        
+        <!-- 📞 Contact Section -->
+        <div class="contact-section">
+            <p class="contact-title">ទំនាក់ទំនង / Contact Us</p>
+            <div class="contact-links">
+                <a href="mailto:forestkh.net@gmail.com" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+                <a href="https://t.me/P0KEM0N_MC" class="contact-link" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    <span>Telegram</span>
+                </a>
+                <a href="https://discord.com" class="contact-link" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 🙏 Thank You Message -->
+        <p class="thank-you">
+             FOREST-SMP Team 
+        </p>
+        
+        <!-- 📄 Footer -->
+        <div class="footer">
+            <p>© 2026 FOREST-SMP. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
