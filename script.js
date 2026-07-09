@@ -79,7 +79,7 @@ function openBuyForm(category, value, price) {
     document.getElementById('buyFormModal').classList.add('active');
 }
 
-//  Close Buy Form Modal
+// ✕ Close Buy Form Modal
 function closeBuyForm() {
     document.getElementById('buyFormModal').classList.remove('active');
 }
@@ -91,13 +91,13 @@ function proceedToPayment() {
     const platform = document.getElementById('input-platform').value;
     
     if (!ign || !email) {
-        showToast("សូមបំពេញ IGN និង Email ឱ្យបានគរប់ជ្រុងជ្រោយ!", 'error');
+        showToast("Please fill in your IGN and Email completely!", 'error');
         return;
     }
     
     // Email validation
     if (!email.includes('@') || !email.includes('.')) {
-        showToast("Email របស់អ្នកមិនត្រឹមត្រូវទេ!", 'error');
+        showToast("Your email is invalid!", 'error');
         return;
     }
     
@@ -117,11 +117,11 @@ async function confirmAndPay() {
     document.getElementById("paymentModal").classList.add('active');
     
     const payload = {
-    player_name: currentOrder.ign,
-    email: currentOrder.email,  // ✅ បន្ថែមបន្ទាត់នេះ
-    platform: currentOrder.platform,
-    category: currentOrder.category.toLowerCase(),
-    value: currentOrder.value
+        player_name: currentOrder.ign,
+        email: currentOrder.email,  // ✅ ផ្ញើ Email ទៅ Backend
+        platform: currentOrder.platform,
+        category: currentOrder.category.toLowerCase(),
+        value: currentOrder.value
     };
     
     try {
@@ -134,7 +134,7 @@ async function confirmAndPay() {
         const result = await response.json();
         
         if (result.status === "success") {
-            showToast("QR Code បានបង្កើតដោយជោគជ័យ!", 'success');
+            showToast("Scan KHQR", 'success');
             
             // Update amount display in new KHQR design
             document.getElementById("khqr-amount").innerText = 
@@ -147,15 +147,15 @@ async function confirmAndPay() {
                 height: 190
             });
             
-            // Start countdown with 3 minutes (180 seconds) instead of 7 minutes
+            // Start countdown with 5 minutes (300 seconds)
             startCountdownTimer(300);
             startPaymentPolling(result.transaction_id);
         } else {
-            showToast("⚠️ ដំណើរការខុសប្រក្រតី: " + result.message, 'error');
+            showToast("ERROR!: " + result.message, 'error');
             closeModal();
         }
     } catch (error) {
-        showToast("❌ មិនអាចតភ្ជាប់ទៅកាន់ API Server បានទេ!", 'error');
+        showToast("ERROR!", 'error');
         closeModal();
     }
 }
@@ -180,8 +180,8 @@ function startCountdownTimer(durationInSeconds) {
             clearInterval(countdownInterval);
             clearInterval(statusPollInterval);
             document.getElementById("qr-timeout-overlay").style.display = "flex";
-            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'><i class='fas fa-times-circle'></i> កូដបង់ប្រាក់នេះត្រូវបានបដិសេធោយប្រព័នធ!</p>";
-            showToast(" QR Code បានផុតកំណត់ហើយ!", 'error');
+            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'><i class='fas fa-times-circle'></i> កូដបង់ប្រាក់នេះត្រូវបានបដិសេធដោយប្រព័ន្ធ!</p>";
+            showToast("QR Code បានផុតកំណត់ហើយ!", 'error');
             setTimeout(closeModal, 4000);
         }
     }, 1000);
@@ -201,8 +201,8 @@ function startPaymentPolling(transactionId) {
                 clearInterval(statusPollInterval);
                 document.getElementById("paymentModal").classList.remove('active');
                 
-                // Send Telegram notification
-                await sendTelegramNotification();
+                // ✅ Backend នឹងផ្ញើ Telegram និង Email ដោយខ្លួនឯង
+                // មិនចាំបាច់ផ្ញើពី Frontend ទៀតទេ
                 
                 // Show success alert
                 triggerSuccessAlert();
