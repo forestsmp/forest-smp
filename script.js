@@ -32,7 +32,6 @@ function showToast(message, type = 'success') {
     
     container.appendChild(toast);
     
-    // Auto remove after 4 seconds
     setTimeout(() => {
         toast.classList.add('hiding');
         setTimeout(() => {
@@ -63,7 +62,6 @@ function openBuyForm(category, value, price) {
     currentOrder.value = value;
     currentOrder.price = price;
     
-    // Update selected item info
     const infoDiv = document.getElementById('selectedItemInfo');
     infoDiv.innerHTML = `
         <h3><i class="fas fa-shopping-cart"></i> Selected Item</h3>
@@ -71,11 +69,9 @@ function openBuyForm(category, value, price) {
         <p><strong>Price:</strong> $${price.toFixed(2)} (≈ ${(price * 4100).toFixed(0)} ៛)</p>
     `;
     
-    // Clear form fields
     document.getElementById('input-ign').value = '';
     document.getElementById('input-email').value = '';
     
-    // Show modal
     document.getElementById('buyFormModal').classList.add('active');
 }
 
@@ -91,13 +87,12 @@ function proceedToPayment() {
     const platform = document.getElementById('input-platform').value;
     
     if (!ign || !email) {
-        showToast("Please fill in your IGN and Email completely!", 'error');
+        showToast("សូមបំពេញ IGN និង Email ឱ្យបានគ្រប់ជ្រុងជ្រោយ!", 'error');
         return;
     }
     
-    // Email validation
     if (!email.includes('@') || !email.includes('.')) {
-        showToast("Your email is invalid!", 'error');
+        showToast("Email របស់អ្នកមិនត្រឹមត្រូវទេ!", 'error');
         return;
     }
     
@@ -105,7 +100,6 @@ function proceedToPayment() {
     currentOrder.email = email;
     currentOrder.platform = platform;
     
-    // Close form and open payment modal
     closeBuyForm();
     confirmAndPay();
 }
@@ -118,7 +112,7 @@ async function confirmAndPay() {
     
     const payload = {
         player_name: currentOrder.ign,
-        email: currentOrder.email,  // ✅ ផ្ញើ Email ទៅ Backend
+        email: currentOrder.email,
         platform: currentOrder.platform,
         category: currentOrder.category.toLowerCase(),
         value: currentOrder.value
@@ -134,9 +128,9 @@ async function confirmAndPay() {
         const result = await response.json();
         
         if (result.status === "success") {
-            showToast("Scan KHQR", 'success');
+            showToast("QR Code បានបង្កើតដោយជោគជ័យ!", 'success');
             
-            // Update amount display in new KHQR design
+            // Update amount display
             document.getElementById("khqr-amount").innerText = 
                 currentOrder.price.toFixed(2).replace('.', ',');
             
@@ -151,11 +145,12 @@ async function confirmAndPay() {
             startCountdownTimer(300);
             startPaymentPolling(result.transaction_id);
         } else {
-            showToast("ERROR!: " + result.message, 'error');
+            showToast("⚠️ ERROR: " + result.message, 'error');
             closeModal();
         }
     } catch (error) {
-        showToast("ERROR!", 'error');
+        console.error("Create order error:", error);
+        showToast("❌ មិនអាចតភ្ជាប់ទៅកាន់ API Server បានទេ!", 'error');
         closeModal();
     }
 }
@@ -202,9 +197,7 @@ function startPaymentPolling(transactionId) {
                 document.getElementById("paymentModal").classList.remove('active');
                 
                 // ✅ Backend នឹងផ្ញើ Telegram និង Email ដោយខ្លួនឯង
-                // មិនចាំបាច់ផ្ញើពី Frontend ទៀតទេ
                 
-                // Show success alert
                 triggerSuccessAlert();
             }
         } catch (error) {
@@ -247,4 +240,4 @@ window.onclick = function(event) {
     if (event.target === buyModal) {
         closeBuyForm();
     }
-}
+        }
