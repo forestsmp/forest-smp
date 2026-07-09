@@ -1,6 +1,4 @@
 const API_BASE_URL = "https://payment.forestsmp.site";
-const TELEGRAM_BOT_TOKEN = "8996279246:AAGsmktthEDXL92gqrMKwcqGY-r7b_oIpes";
-const TELEGRAM_GROUP_ID = "-1003768957328";
 const PRICE_PER_LIFE = 0.50; // $0.50 per life
 
 let currentOrder = {
@@ -191,27 +189,6 @@ function startPaymentPolling(transactionId) {
             }
         } catch (error) { console.error("Polling error:", error); }
     }, 4000);
-}
-
-// 📱 Send Telegram Notification
-async function sendTelegramNotification() {
-    const message = `🎉 <b>LIFE BOOST PURCHASED!</b>
-
-👤 <b>Player:</b> ${currentOrder.ign}
-📧 <b>Email:</b> ${currentOrder.email}
-🎮 <b>Platform:</b> ${currentOrder.platform.toUpperCase()}
-💖 <b>Item:</b> ${currentOrder.value.replace('_', ' ').toUpperCase()}
-💰 <b>Price:</b> $${currentOrder.price.toFixed(2)}
-⏰ <b>Time:</b> ${new Date().toLocaleString('km-KH')}`.trim();
-
-    try {
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ chat_id: TELEGRAM_GROUP_ID, text: message, parse_mode: "HTML" })
-        });
-        console.log("✅ Telegram notification sent");
-    } catch (error) { console.error("❌ Failed to send Telegram notification:", error); }
 }
 
 //  Success Alert
