@@ -37,7 +37,7 @@ function toggleMenu() {
     document.getElementById('navLinks').classList.toggle('open');
 }
 
-//  Update Price Logic
+// 💰 Update Price Logic
 function updatePrice() {
     const slider = document.getElementById('lifeSlider');
     const qty = parseInt(slider.value);
@@ -92,11 +92,11 @@ function proceedToPayment() {
     const platform = document.getElementById('input-platform').value;
 
     if (!ign || !email) {
-        showToast("សូមបំពេញ IGN និង Email ឱ្យបានគ្រប់ជ្ុងជ្រោយ!", 'error');
+        showToast("Please fill in your IGN and Email completely.!", 'error');
         return;
     }
     if (!email.includes('@') || !email.includes('.')) {
-        showToast("Email របស់អ្នកមិនត្រឹមត្រូវទេ!", 'error');
+        showToast("Your email is invalid.!", 'error');
         return;
     }
 
@@ -115,11 +115,11 @@ async function confirmAndPay() {
     document.getElementById("paymentModal").classList.add('active');
 
     const payload = {
-    player_name: currentOrder.ign,
-    email: currentOrder.email,  // ✅ បន្ថែមបន្ទាត់នេះ
-    platform: currentOrder.platform,
-    category: currentOrder.category,
-    value: currentOrder.value
+        player_name: currentOrder.ign,
+        email: currentOrder.email,  // ✅ ផ្ញើ Email ទៅ Backend
+        platform: currentOrder.platform,
+        category: currentOrder.category,
+        value: currentOrder.value
     };
 
     try {
@@ -131,7 +131,7 @@ async function confirmAndPay() {
         const result = await response.json();
 
         if (result.status === "success") {
-            showToast("QR Code បានបងកើតដោយជោគជយ!", 'success');
+            showToast("Scan KHQR", 'success');
             document.getElementById("khqr-amount").innerText = currentOrder.price.toFixed(2).replace('.', ',');
             document.getElementById("qrcode-box").innerHTML = "";
             new QRCode(document.getElementById("qrcode-box"), {
@@ -139,14 +139,14 @@ async function confirmAndPay() {
                 width: 190,
                 height: 190
             });
-            startCountdownTimer(300);
+            startCountdownTimer(300); // 5 នាទី
             startPaymentPolling(result.transaction_id);
         } else {
-            showToast("⚠️ ដំណើរការខុសប្ក្រតី: " + result.message, 'error');
+            showToast("ERROR: " + result.message, 'error');
             closeModal();
         }
     } catch (error) {
-        showToast(" មិនអាចតភ្ជាប់ទៅកាន់ API Server បានទេ!", 'error');
+        showToast("ERROR!", 'error');
         closeModal();
     }
 }
@@ -166,14 +166,14 @@ function startCountdownTimer(durationInSeconds) {
             clearInterval(countdownInterval);
             clearInterval(statusPollInterval);
             document.getElementById("qr-timeout-overlay").style.display = "flex";
-            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'><i class='fas fa-times-circle'></i> កូដបង់ប្រាក់នេះត្រូវបានបដិសេធោយប្រព័នធ!</p>";
+            document.getElementById("payment-spinner").innerHTML = "<p style='color:red;font-weight:bold;'><i class='fas fa-times-circle'></i> កូដបង់ប្រាក់នេះត្រូវបានបដិសេធដោយប្រព័ន្ធ!</p>";
             showToast("QR Code បានផុតកំណត់ហើយ!", 'error');
             setTimeout(closeModal, 4000);
         }
     }, 1000);
 }
 
-//  Payment Polling
+// 🔍 Payment Polling
 function startPaymentPolling(transactionId) {
     if (statusPollInterval) clearInterval(statusPollInterval);
     statusPollInterval = setInterval(async () => {
@@ -184,14 +184,19 @@ function startPaymentPolling(transactionId) {
                 clearInterval(countdownInterval);
                 clearInterval(statusPollInterval);
                 document.getElementById("paymentModal").classList.remove('active');
-                await sendTelegramNotification();
+                
+                // ✅ លុប await sendTelegramNotification() ចេញ
+                // Backend (Python) នឹងផ្ញើ Telegram និង Email ដោយខ្លួនឯង
+                
                 triggerSuccessAlert();
             }
-        } catch (error) { console.error("Polling error:", error); }
+        } catch (error) { 
+            console.error("Polling error:", error); 
+        }
     }, 4000);
 }
 
-//  Success Alert
+// 🎉 Success Alert
 function triggerSuccessAlert() {
     const alertModal = document.getElementById("successAlert");
     alertModal.style.display = "flex";
