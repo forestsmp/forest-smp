@@ -1,4 +1,4 @@
-/* 🌐 Global Styles & Font */
+/* 🌐 Global Styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,245 +6,199 @@
 }
 
 body {
-    background-color: #0f1318;
-    color: #e2e8f0;
-    /* ✅ ប្តូរ Font ទៅជា Press Start 2P */
+    background-color: #121212; /* ពណ៌ខ្មៅងងឹតបែប Cave */
+    color: #ffffff;
+    
+    /* ✅ FONT MINECRAFT */
     font-family: 'Press Start 2P', cursive; 
+    
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     
-    /* ✅ បន្ថែមនេះដើម្បីឱ្យអក្សរមិនព្រាល (Anti-aliasing off) */
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: auto;
-    image-rendering: pixelated; 
+    /* ✅ ធ្វើឱ្យអក្សរមើលទៅដូច Pixel ច្បាស់ (មិនព្រាល) */
+    -webkit-font-smoothing: none; 
+    image-rendering: pixelated;
     
-    /* ✅ បន្ថយទំហំអក្សរមកនៅត្រឹម 10px-12px ព្រោះ Font នេះធំខ្លាំង */
+    /* ✅ កាត់បន្ថយទំហំអក្រ (Pixel font ធំខ្លាំង) */
     font-size: 10px; 
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
-/* 📜 Custom Scrollbar */
-::-webkit-scrollbar { width: 10px; }
-::-webkit-scrollbar-track { background: #0f1318; }
+/* 📜 Scrollbar បែប Minecraft */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #000; border-left: 2px solid #333; }
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(#4caf50, #2e7d32);
-    border-radius: 5px;
+    background: #5d5d5d;
+    border: 2px solid #fff; /* Border សបែប Block */
 }
-::-webkit-scrollbar-thumb:hover { background: #66bb6a; }
 
 /* 🌐 Navigation Bar */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #161c24;
-    padding: 20px 50px; /* បង្កើន Padding បន្តិចព្រោះអក្សរតូច */
-    border-bottom: 2px solid #2d3748;
+    background-color: #1e1e1e; /* ពណ៌ Stone/Dark Gray */
+    padding: 20px 40px;
+    border-bottom: 4px solid #000; /* Border ក្រាស់បែប Block */
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
 .nav-logo {
-    font-size: 18px; /* កែពី 22px មក 18px */
-    font-weight: bold;
-    color: #4caf50;
+    font-size: 16px;
+    color: #55ff55; /* ពណបៃតងបែប Minecraft XP */
+    text-shadow: 2px 2px 0px #000; /* Shadow ខ្មៅបែប Text Minecraft */
     cursor: pointer;
-    letter-spacing: -1px; /* បង្រួមគម្លាតអក្សរបន្តិច */
-}
-
-.nav-logo i { margin-right: 8px; }
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 30px;
 }
 
 .nav-links a {
-    color: #a0aec0;
+    color: #aaaaaa;
     text-decoration: none;
-    font-weight: normal; /* Pixel font មិនសូវមាន Bold/Normal ច្បាស់លាស់ទេ */
-    font-size: 10px; /* កែទំហំអក្សរ */
-    transition: 0.3s;
+    font-size: 10px;
+    transition: 0.2s;
+    text-shadow: 1px 1px 0px #000;
 }
 
-.nav-links a i { margin-right: 6px; }
-.nav-links a:hover { color: #4caf50; }
-
-/* ... (កូដផ្សេងទៀតនៅដដែល គ្រាន់តែកែទំហំ font-size នៅកន្លែងនីមួយៗ) ... */
-
-/*  Home Content */
-.welcome-text { text-align: center; margin-bottom: 40px; }
-.welcome-text h1 { 
-    font-size: 20px; /* កែពី 28px */
-    color: #fff; 
-    margin-bottom: 15px; 
-    line-height: 1.4;
+.nav-links a:hover { 
+    color: #ffff55; /* ពណលឿងពេល Hover */
+    text-decoration: underline;
 }
-.welcome-text h1 i { color: #4caf50; margin-right: 10px; }
 
+/* 🏠 Home Boxes (បែប Inventory Slot) */
 .home-boxes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
 }
 
 .home-box {
-    background-color: #1a222d;
-    border-radius: 0; /* ✅ ប្តូរ Radius ទៅ 0 ឬតូចខ្លាំង ព្រោះ Pixel Font មិនសូវចូលគ្នាជាមួយ Rounded Corners */
-    border: 2px solid #2d3748; /* បន្ថែម Border ឱ្យដូចហ្គេម */
-    padding: 35px 25px;
+    background-color: #8b8b8b; /* ពណ៌ Stone Gray */
+    border: 4px solid #000; /* Border ខមៅក្រាស់ */
+    border-top-color: #c6c6c6; /* Highlight ខាងលើ (3D effect) */
+    border-left-color: #c6c6c6;
+    border-right-color: #555; /* Shadow ខាងស្តាំ */
+    border-bottom-color: #555; /* Shadow ខាងក្រោម */
+    
+    padding: 30px 20px;
     text-align: center;
     cursor: pointer;
-    transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.5); /* ✅ Shadow បែប Retro */
-    position: relative;
-    overflow: hidden;
+    transition: transform 0.1s;
+    
+    /* ✅ គ្មាន Rounded Corners */
+    border-radius: 0; 
 }
 
 .home-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 6px 6px 0px rgba(76, 175, 80, 0.4);
-    border-color: #4caf50;
+    background-color: #a0a0a0;
+    transform: scale(1.02);
 }
 
-.box-icon { font-size: 35px; margin-bottom: 15px; }
-
-/* 💎 Rank Page */
-h2 {
-    font-size: 16px; /* កែទំហំ */
-    margin-bottom: 25px;
-    color: #4caf50;
-    text-transform: uppercase;
+.box-icon { 
+    font-size: 40px; 
+    margin-bottom: 15px; 
+    filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.5));
 }
 
+.box-views h3 { color: #55ff55; text-shadow: 2px 2px 0 #000; }
+.box-rank h3 { color: #ffaa00; text-shadow: 2px 2px 0 #000; }
+.box-life h3 { color: #ff5555; text-shadow: 2px 2px 0 #000; }
+
+/* 💎 Rank Cards (បែប Book/Sign) */
 .rank-card {
-    background-color: #161c24;
-    border: 2px solid #2d3748;
-    border-radius: 0; /* ✅ ប្តូរទៅ 0 */
+    background-color: #c6c6c6; /* ពណ៌ Iron Block */
+    border: 4px solid #000;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #555;
+    border-bottom-color: #555;
     padding: 25px;
     text-align: center;
-    transition: 0.3s;
-    position: relative;
-    box-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+    border-radius: 0;
+    color: #000; /* អក្សរខ្មៅលើផ្ទៃភលឺ */
 }
 
-.price { 
-    font-size: 18px; 
-    font-weight: bold; 
-    margin-bottom: 10px; 
-    color: #fff;
+.rank-card h2 {
+    color: #2e7d32;
+    text-shadow: none;
+    font-size: 14px;
+    margin-bottom: 15px;
 }
 
-.desc { 
-    font-size: 9px; /* កែទំហំឱ្យតូច */
-    color: #cbd5e0; 
-    line-height: 1.8; 
-    margin-bottom: 20px; 
+.price {
+    font-size: 16px;
+    color: #000;
+    margin: 10px 0;
 }
 
-/* BUY Button */
-.btn-buy {
+.desc {
+    font-size: 9px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* 🔘 Buttons (បែប Minecraft Button) */
+.btn-buy, .btn-proceed {
     width: 100%;
-    padding: 15px 20px;
-    font-size: 12px; /* កែទំហំ */
-    font-weight: bold;
-    border: 2px solid #2e7d32; /* បន្ែម Border */
-    border-radius: 0; /* ✅ ប្តូរទៅ 0 */
-    cursor: pointer;
-    transition: 0.2s;
-    background: #4caf50;
+    padding: 15px;
+    font-size: 12px;
+    font-family: 'Press Start 2P', cursive;
+    border: 4px solid #000;
+    border-top-color: #7cfc00; /* Light Green */
+    border-left-color: #7cfc00;
+    border-right-color: #006400; /* Dark Green */
+    border-bottom-color: #006400;
+    background-color: #55aa55; /* Base Green */
     color: #fff;
-    text-transform: uppercase;
-    box-shadow: 4px 4px 0px #1b5e20; /* ✅ Retro Shadow */
+    text-shadow: 2px 2px 0px #000;
+    cursor: pointer;
+    border-radius: 0;
+    transition: 0.1s;
 }
 
 .btn-buy:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #1b5e20;
-    background: #66bb6a;
+    background-color: #66cc66;
 }
 
 .btn-buy:active {
-    transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0px #1b5e20;
+    border-top-color: #006400;
+    border-left-color: #006400;
+    border-right-color: #7cfc00;
+    border-bottom-color: #7cfc00;
+    transform: translateY(2px);
 }
 
-/* 📝 Modal Form Inputs */
+/* 📝 Form Inputs */
 .form-group input, .form-group select {
     width: 100%;
     padding: 12px;
-    background-color: #0f1318;
-    border: 2px solid #2d3748;
-    border-radius: 0; /* ✅ ប្តូរទៅ 0 */
+    background-color: #000;
+    border: 2px solid #555;
     color: #fff;
-    font-family: 'Press Start 2P', cursive; /* ✅ ប្រើ Font ដូចគ្នាក្នុង Input */
+    font-family: 'Press Start 2P', cursive;
     font-size: 10px;
+    border-radius: 0;
     outline: none;
-    transition: 0.3s;
 }
 
-/*  ចំណាំសំខាន់: KHQR Modal */
-/* ខ្ញុំសូមណែនាំថា **កុំ** ប្រើ Font នេះសម្រាប់ KHQR Modal ទាំងមូល
-   ព្រោះវានឹងធ្វើ្យពិបាកអាន (Merchant Name, Amount)។
-   ប៉ុន្តែបើអ្នកចង់បាន Title "KHQR" អាចប្រើបាន។ */
-
-.khqr-red-header {
-    background: linear-gradient(135deg, #d32f2f, #b71c1c);
-    padding: 18px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+.form-group input:focus {
+    border-color: #fff;
 }
+
+/*  ចំណាំសម្រាប់ KHQR Modal */
+/* សម្រាប់ផ្នែក KHQR ខ្ញុំសូមណែនាំឱ្យប្រើ Font ធម្មតា (Sans-serif) 
+   ព្រោះ Pixel Font ធ្វើឱ្យពិបាកអានលេខ និង្មោះហាង។ 
+   ប៉ុន្ែ Title "KHQR" អាចបរើ Pixel Font បាន។ */
 
 .khqr-logo-text {
-    color: #ffffff;
-    font-size: 20px; /* កែទំហំ */
-    font-weight: 900;
-    letter-spacing: 2px;
-    font-family: 'Press Start 2P', cursive; /* ✅ ប្រើ Pixel Font ត្រង់នេះ */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    color: #fff;
 }
 
-.khqr-merchant-name {
-    font-size: 14px; /* កែទំហំ */
+.khqr-merchant-name, .khqr-amount-value {
+    font-family: 'Arial', sans-serif; /* បរើ Font ងាយស្ួលអាន */
     font-weight: bold;
-    color: #1a1a1a;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    text-align: left;
-    /* អាចប្រើ Font ធម្មតាវិញត្រង់នេះដើម្ីងាយស្រួលអាន */
-    font-family: 'Poppins', sans-serif; 
-}
-
-.khqr-amount-value {
-    font-size: 16px;
-    font-weight: bold;
-    color: #444;
-    font-family: 'Poppins', sans-serif; /* ✅ ប្រើ Font ធម្មតាសម្រាប់លេខ */
-}
-
-/*  Footer */
-.site-footer {
-    background-color: #161c24;
-    border-top: 2px solid #2d3748;
-    margin-top: auto;
-    padding: 40px 20px 0;
-}
-
-.footer-col h4 {
-    color: #4caf50;
-    margin-bottom: 15px;
-    font-size: 12px;
-}
-
-.footer-col p, .footer-col a {
-    color: #a0aec0;
-    font-size: 9px; /* កែទំហំ */
-    line-height: 2;
-    text-decoration: none;
-    display: block;
-    transition: 0.2s;
 }
